@@ -1,4 +1,4 @@
 {
-    "/movies/:id": "/movies?:id=id"
+    "/some/:id": "/movies?id=:id"
 
 }

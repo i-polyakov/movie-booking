@@ -14,7 +14,7 @@ const CreateMovie = () => {
     const [runtime, setRuntime] = useState('');
     const [image, setImage] = useState('https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg');
     const [plot, setPlot] = useState('');
-    const [genresID, setGenresID] = useState([]);
+    const [genresId, setGenresID] = useState([]);
 
     const genres = useSelector((state) => state.movie.genres);
 
@@ -30,7 +30,7 @@ const CreateMovie = () => {
             runtime,
             image,
             plot,
-            genresID,
+            genresId,
         };
         try {
             const createdMovie = await agent.Movies.create(newMovie)
@@ -50,10 +50,10 @@ const CreateMovie = () => {
     };
 
     const handleGenreChange = (genreId) => {
-        if (genresID.includes(genreId)) {
-            setGenresID(genresID.filter((id) => id !== genreId));
+        if (genresId.includes(genreId)) {
+            setGenresID(genresId.filter((id) => id !== genreId));
         } else {
-            setGenresID([...genresID, genreId]);
+            setGenresID([...genresId, genreId]);
         }
     };
 
@@ -90,7 +90,7 @@ const CreateMovie = () => {
                         {genres.map((genre) => (
                             <div key={genre.id}>
                                 <input type="checkbox"
-                                    checked={genresID.includes(genre.id)}
+                                    checked={genresId.includes(genre.id)}
                                     onChange={() => handleGenreChange(genre.id)}
                                     className={styles.checkbox} />
                                 {genre.name}

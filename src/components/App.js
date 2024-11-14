@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { APP_LOAD, REDIRECT } from '../constants/actionTypes';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../components/Home';
+import Movie from '../components/Movie';
 import { push } from 'react-router-redux';
 import CreateMovie from './CreateMovie';
 
@@ -55,6 +56,7 @@ export default function App (){
             <Routes>
             <Route exact path="/*" element={<Home/>}/>
             <Route exact path="/movies/new" element={<CreateMovie/>}/>
+            <Route exact path="/movies/:id" element={<Movie/>}/>
             {/* <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/editor/:slug" component={Editor} />

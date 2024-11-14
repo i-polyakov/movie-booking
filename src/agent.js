@@ -29,8 +29,8 @@ const requests = {
 
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
-const Genres = { all: () =>
-  requests.get(`/genres`),}
+const Genres = { all: () => requests.get(`/genres`),}
+const Showtimes = { getByMovieId: id => requests.get(`/showtimes?movieId=${id}`)}
 const Movies = {
   all: () =>
     requests.get(`/movies`),
@@ -47,7 +47,7 @@ const Movies = {
   feed: () =>
     requests.get('/articles/'),//feed?limit=10&offset=0
   get: id =>
-    requests.get(`/articles/${id}`),
+    requests.get(`/movies/${id}`),
   unfavorite: slug =>
     requests.del(`/articles/${slug}/favorite`),
   update: article =>
@@ -60,6 +60,7 @@ const Movies = {
 export default {
   Movies,
   Genres,
+  Showtimes,
   // Auth,
   // Comments,
   // Profile,

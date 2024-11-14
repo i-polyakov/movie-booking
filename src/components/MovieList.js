@@ -1,10 +1,8 @@
-import MoviePreview from './MoviePreview';
 import { Link } from 'react-router-dom';
 import styles from '../styles/MovieList.module.css';
 import React from 'react';
 
 const MovieList = props => {
-console.log("prop", props);
   if (!props.movies) {
     return (
       <div className="movie-preview">Загрузка...</div>
@@ -19,7 +17,6 @@ console.log("prop", props);
     );
   }
  
-  console.log( "style",styles.container);
   return (
    
     <div className={ styles.container }>
