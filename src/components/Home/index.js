@@ -44,7 +44,7 @@ export default function Home(){
   };
 
   useEffect(() => {
-    dispatch(onLoad(agent.Movies.all));
+    dispatch(onLoad(agent.Movies.all()));
     // Очистка при размонтировании компонента
     // return () => {
     //   dispatch(onUnload());

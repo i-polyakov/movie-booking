@@ -8,7 +8,8 @@ import {
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {
-  if (isPromise(action.payload)) {
+  console.log("action ",action );
+  if (action&&isPromise(action.payload)) {
     store.dispatch({ type: ASYNC_START, subtype: action.type });
 
     const currentView = store.getState().viewChangeCounter;
@@ -47,6 +48,7 @@ const promiseMiddleware = store => next => action => {
 };
 
 const localStorageMiddleware = store => next => action => {
+  if (action){
   if (action.type === REGISTER || action.type === LOGIN) {
     if (!action.error) {
       window.localStorage.setItem('jwt', action.payload.user.token);
@@ -58,6 +60,7 @@ const localStorageMiddleware = store => next => action => {
   }
 
   next(action);
+}
 };
 
 function isPromise(v) {

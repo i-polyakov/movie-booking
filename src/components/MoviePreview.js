@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
   })
 });
 
-const MoviePreview = ({movie, key }) => {
+const MoviePreview = ({movie }) => {
   // const handleClick = ev => {
   //   ev.preventDefault();
   //   if (article.favorited) {
@@ -52,6 +52,7 @@ const MoviePreview = ({movie, key }) => {
       </div> */}
 
       <Link to={`/movie/${movie.id}`} className="preview-link">
+        <img src={movie.image} alt={movie.title}/> 
         <h1>{movie.title}</h1>
         <p>{movie.description}</p>
         <span>Read more...</span>

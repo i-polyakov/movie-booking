@@ -13,12 +13,7 @@ import reducer from './reducer';
 // const myRouterMiddleware = routerMiddleware(history);
 
 const getMiddleware = () => {
-  if (process.env.NODE_ENV === 'production') {
-    return applyMiddleware(promiseMiddleware, localStorageMiddleware);
-  } else {
-    // Enable additional logging in non-production environments.
-    return applyMiddleware(promiseMiddleware, localStorageMiddleware, createLogger())
-  }
+    return applyMiddleware(promiseMiddleware, localStorageMiddleware, process.env.NODE_ENV === 'production'? null: createLogger())
 };
 
 export const store = createStore(

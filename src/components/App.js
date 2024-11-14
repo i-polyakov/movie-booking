@@ -36,11 +36,7 @@ export default function App (){
 
   useEffect(() => {
     // Эмулируем componentWillMount
-    const token = window.localStorage.getItem('jwt');
-    if (token) {
-      agent.setToken(token);
-    }
-    dispatch({ type: APP_LOAD, payload: token ? agent.Auth.current() : null, token, skipTracking: true });
+    dispatch({ type: APP_LOAD, payload: null, skipTracking: true });
   }, [dispatch]); // В зависимости добавляем dispatch
 
   useEffect(() => {
