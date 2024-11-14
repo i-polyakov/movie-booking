@@ -1,6 +1,68 @@
 {
   "users":[],
-  "movies":[],
+  "movies":[{
+    "id": 1,
+    "title": "Some looong name of movie 1",
+    "released": "01-01-2024",
+    "runtime": "1:45",
+    "image": "url",
+    "plot": "Some interesting plot",
+    "genresID":[1, 2]
+},
+{
+  "id": 2,
+  "title": "Some looong name of movie 2",
+  "released": "01-01-2024",
+  "runtime": "1:45",
+  "image": "url",
+  "plot": "Some interesting plot",
+  "genresID":[1, 2]
+},
+{
+  "id": 3,
+  "title": "Some looong name of movie 3",
+  "released": "01-01-2024",
+  "runtime": "1:45",
+  "image": "url",
+  "plot": "Some interesting plot",
+  "genresID":[1, 2]
+},
+{
+  "id": 3,
+  "title": "Some looong name of movie 4",
+  "released": "01-01-2024",
+  "runtime": "1:45",
+  "image": "url",
+  "plot": "Some interesting plot",
+  "genresID":[1, 2]
+},
+{
+"id": 5,
+"title": "Some looong name of movie 5",
+"released": "01-01-2024",
+"runtime": "1:45",
+"image": "url",
+"plot": "Some interesting plot",
+"genresID":[1, 2]
+},
+{
+"id": 6,
+"title": "Some looong name of movie 6",
+"released": "01-01-2024",
+"runtime": "1:45",
+"image": "url",
+"plot": "Some interesting plot",
+"genresID":[1, 2]
+}
+],
+  "genres":[
+    {
+    "id": 1,
+    "name": "Боевик"},
+    {
+    "id": 2,
+    "name": "Драма"}
+  ],
   "reviews":[],
   "halls":[],
   "seats":[],
