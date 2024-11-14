@@ -1,13 +1,11 @@
-import agent from '../agent';
 import Header from './Header';
 import React, { useEffect }  from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { connect } from 'react-redux';
 import { APP_LOAD, REDIRECT } from '../constants/actionTypes';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../components/Home';
-import { store } from '../store';
 import { push } from 'react-router-redux';
+import CreateMovie from './CreateMovie';
 
 // const mapStateToProps = state => {
 //   return {
@@ -56,6 +54,7 @@ export default function App (){
             currentUser={currentUser} />
             <Routes>
             <Route exact path="/*" element={<Home/>}/>
+            <Route exact path="/movies/new" element={<CreateMovie/>}/>
             {/* <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/editor/:slug" component={Editor} />

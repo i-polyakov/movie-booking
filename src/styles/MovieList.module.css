@@ -1,0 +1,89 @@
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Перенос элементов на новую строку */
+    gap: 20px; /* Отступ между карточками */
+    padding: 20px; /* Отступ контейнера */
+}
+
+.movieCard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Обрезка содержимого */
+    width: 200px; /* Ширина карточки */
+    min-height: 300px;
+    transition: transform 0.2s; /* Плавный эффект при наведении */
+    display: flex;
+    flex-direction: column; /* Вертикальная компоновка элементов внутри карточки */
+}
+
+.movieCard:hover {
+    transform: scale(1.05); /* Увеличение карточки при наведении */
+}
+
+.movieImage {
+    width: 100%; /* Занимает 100% ширины карточки */
+    height: auto; /* Автоматическая высота */
+    max-height: 250px; /* Максимальная высота для изображения */
+    object-fit: cover; /* Сохранение пропорций изображения */
+}
+
+.movieTitle {
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+    color: #333;
+    flex-grow: 0; /* Не позволяет заголовку занимать оставшееся пространство */
+    flex-shrink: 0; /* Запрещает сжимать заголовок */
+}
+
+.plusIcon {
+    display: flex;
+    align-items: center; /* Вертикальное центрирование */
+    justify-content: center; /* Горизонтальное центрирование */
+    width: 100%; /* Ширина равна ширине карточки */
+    height: 100%; /* Высота равна высоте карточки */
+    position: relative;
+}
+
+.plusIcon::before,
+.plusIcon::after {
+    content: '';
+    position: absolute;
+    background-color: black; /* Цвет плюса */
+}
+
+.plusIcon::before {
+    width: 8px; /* Ширина вертикальной линии */
+    height: 20px; /* Высота вертикальной линии */
+    top: 50%; /* Центрирование по вертикали */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translate(-50%, -50%); /* Центрирование */
+}
+
+.plusIcon::after {
+    width: 20px; /* Ширина горизонтальной линии */
+    height: 8px; /* Высота горизонтальной линии */
+    top: 50%; /* Центрирование по вертикали */
+    left: 50%; /* Центрирование по горизонтали */
+    transform: translate(-50%, -50%); /* Центрирование */
+}
+
+@media (max-width: 768px) {
+    .movieCard {
+        width: 150px; /* Уменьшение ширины для меньших экранов */
+        min-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        gap: 10px; /* Уменьшение отступа на очень маленьких экранах */
+        padding: 10px; /* Уменьшение отступа контейнера */
+        flex-direction: row;
+        justify-content: center;
+    }
+    .movieTitle {
+        font-size: 14px; /* Уменьшение размера шрифта для заголовка */
+    }
+}

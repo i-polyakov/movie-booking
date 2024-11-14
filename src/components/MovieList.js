@@ -1,5 +1,6 @@
 import MoviePreview from './MoviePreview';
-// import ListPagination from './ListPagination';
+import { Link } from 'react-router-dom';
+import styles from '../styles/MovieList.module.css';
 import React from 'react';
 
 const MovieList = props => {
@@ -17,21 +18,28 @@ console.log("prop", props);
       </div>
     );
   }
-
+ 
+  console.log( "style",styles.container);
   return (
-    <div>
+   
+    <div className={ styles.container }>
+      {!props.canCreate&&(
+        <Link to={`/movies/new`} className={styles.movieCard}>
+            <div className={styles.plusIcon}/> 
+        </Link>
+      )}
       {
         props.movies.map(movie => {
           return (
-            <MoviePreview movie={movie} key={movie.id} />
+            <Link to={`/movies/${movie.id}`} key={movie.id} className={styles.movieCard}>
+            <img src={movie.image} alt={movie.title}className={styles.movieImage}/> 
+            <div className={styles.movieTitle}>{movie.title}</div>
+            
+          </Link>
+           
           );
         })
       }
-
-      {/* <ListPagination
-        pager={props.pager}
-        articlesCount={props.articlesCount}
-        currentPage={props.currentPage} /> */}
     </div>
   );
 };

@@ -51,13 +51,7 @@ const MoviePreview = ({movie }) => {
         </div>
       </div> */}
 
-      <Link to={`/movie/${movie.id}`} className="preview-link">
-        <img src={movie.image} alt={movie.title}/> 
-        <h1>{movie.title}</h1>
-        <p>{movie.description}</p>
-        <span>Read more...</span>
-       
-      </Link>
+     
     </div>
   );
 }

@@ -29,6 +29,8 @@ const requests = {
 
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
+const Genres = { all: () =>
+  requests.get(`/genres`),}
 const Movies = {
   all: () =>
     requests.get(`/movies`),
@@ -50,13 +52,14 @@ const Movies = {
     requests.del(`/articles/${slug}/favorite`),
   update: article =>
     requests.put(`/articles/${article.slug}`, { article: article }),
-  create: article =>
-    requests.post('/articles', { ...article })
+  create: movie =>
+    requests.post('/movies', { ...movie })
 };
 
 
 export default {
   Movies,
+  Genres,
   // Auth,
   // Comments,
   // Profile,

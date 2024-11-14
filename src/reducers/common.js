@@ -8,7 +8,6 @@ import {
   REGISTER,
   DELETE_ARTICLE,
   ARTICLE_PAGE_UNLOADED,
-  EDITOR_PAGE_UNLOADED,
   HOME_PAGE_UNLOADED,
   PROFILE_PAGE_UNLOADED,
   PROFILE_FAVORITES_PAGE_UNLOADED,
@@ -55,7 +54,6 @@ export default (state = defaultState, action) => {
     case DELETE_ARTICLE:
       return { ...state, redirectTo: '/' };
     case ARTICLE_PAGE_UNLOADED:
-    case EDITOR_PAGE_UNLOADED:
     case HOME_PAGE_UNLOADED:
     case PROFILE_PAGE_UNLOADED:
     case PROFILE_FAVORITES_PAGE_UNLOADED:
