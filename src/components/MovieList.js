@@ -16,11 +16,12 @@ const MovieList = props => {
       </div>
     );
   }
- 
+  const canCreate = true
+
   return (
    
     <div className={ styles.container }>
-      {!props.canCreate&&(
+      {canCreate&&(
         <Link to={`/movies/new`} className={styles.movieCard}>
             <div className={styles.plusIcon}/> 
         </Link>

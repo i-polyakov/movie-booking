@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate, Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Movie.module.css'; // Импортируем стили
 import agent from '../../agent';
 import { MOVIE_PAGE_LOADED } from '../../constants/actionTypes';
-
 
 const Movie = () => {
     const navigate = useNavigate()
 
     const { id } = useParams(); // Получаем ID фильма из URL
     const dispatch = useDispatch();
-    
+    const canCreate = true
     const [selectedShowtime, setSelectedShowtime] = useState(null);
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
@@ -39,11 +38,6 @@ const Movie = () => {
     const handleShowtimeSelect = (showtime) => {
         navigate(`/movies/${id}/booking/${showtime.id}`);
         // setSelectedShowtime(showtime);
-    };
-
-    const handleBookShowtime = () => {
-        // Логика для бронирования сеанса (например, открыть модальное окно)
-        alert(`Вы забронировали сеанс на ${selectedShowtime.time}`);
     };
 
     if (!movie) {
@@ -76,6 +70,11 @@ const Movie = () => {
             <h2>Доступные сеансы:</h2>
             
             <div className={styles.showtimeList}>
+                {canCreate&&(
+                    <Link to={`/movies/${id}/new-showtime`} >
+                        <button className={styles.button}>Добавить сеанс</button>
+                    </Link>
+                )}
                 {Object.entries(groupedShowtimes).map(([date, halls]) => (
                     <div key={date} className={styles.dateGroup}>
                         <div className={styles.date}>{new Date(date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' })}</div>
@@ -97,12 +96,6 @@ const Movie = () => {
                     </div>
                 ))}
             </div>
-    
-            {selectedShowtime && (
-                <button onClick={handleBookShowtime} className={styles.bookButton}>
-                    Забронировать сеанс
-                </button>
-            )}
         </div>
     );
 };

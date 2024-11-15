@@ -1,4 +1,5 @@
-import { CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED, DELETE_BOOKING } from '../constants/actionTypes';
+import {CREATE_SHOWTIME,CREATE_SHOWTIME_PAGE_LOADED, CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, 
+   MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED, DELETE_BOOKING } from '../constants/actionTypes';
 
 const defaultState = {
   genres: [],
@@ -41,9 +42,20 @@ export default (state = defaultState, action) => {
         movie: action.payload[0],
         showtime: action.payload[1],
         seats: action.payload[2],
-        bookedSeats: action.payload[3],
-        halls: action.payload[4]
+        bookedSeats: action.payload[3]
       };
+      case CREATE_SHOWTIME:
+        return {
+          ...state,
+          showtimes: state.showtimes.concat(action.payload)
+        };
+      case CREATE_SHOWTIME_PAGE_LOADED:
+        return {
+          ...state,
+          movie: action.payload[0],
+          showtimes: action.payload[1],
+          halls: action.payload[2]
+        };
     case CREATE_MOVIE_PAGE_UNLOADED:
       return {};
     default:

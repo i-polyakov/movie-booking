@@ -8,6 +8,7 @@ import Movie from '../components/Movie';
 import SeatList from '../components/Booking/SeatList';
 import { push } from 'react-router-redux';
 import CreateMovie from './CreateMovie';
+import CreateShowtime from './CreateShowtime';
 
 // const mapStateToProps = state => {
 //   return {
@@ -58,6 +59,7 @@ export default function App (){
             <Route exact path="/*" element={<Home/>}/>
             <Route exact path="/movies/new" element={<CreateMovie/>}/>
             <Route exact path="/movies/:id" element={<Movie/>}/>
+            <Route exact path="/movies/:id/new-showtime" element={<CreateShowtime/>}/>
             <Route exact path="/movies/:id/booking/:showtimeId" element={<SeatList/>}/>
             {/* <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />

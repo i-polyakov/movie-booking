@@ -33,12 +33,14 @@ const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
 const Genres = { all: () => requests.get(`/genres`),}
 
 const Showtimes = { 
-  getByMovieId: id => requests.get(`/showtimes?_expand=hall&movieId=${id}`),
+  getByMovieId: id => requests.get(`/showtimes?_sort=date,time&movieId=${id}`),
   get: id => requests.get(`/showtimes/${id}?_expand=hall`),
+  create: showtime =>
+  requests.post('/showtimes', { ...showtime })
 }
 
 const Halls = { all: () => requests.get(`/halls`)}
-const Seats = { all: () => requests.get(`/seats?_expand=hall`)}
+const Seats = { all: () => requests.get(`/seats?`)}
 const Booking = { 
    create: booking =>
     requests.post('/bookings', { ...booking}),
