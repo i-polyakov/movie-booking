@@ -5,6 +5,7 @@ import { APP_LOAD, REDIRECT } from '../constants/actionTypes';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../components/Home';
 import Movie from '../components/Movie';
+import SeatList from '../components/Booking/SeatList';
 import { push } from 'react-router-redux';
 import CreateMovie from './CreateMovie';
 
@@ -57,6 +58,7 @@ export default function App (){
             <Route exact path="/*" element={<Home/>}/>
             <Route exact path="/movies/new" element={<CreateMovie/>}/>
             <Route exact path="/movies/:id" element={<Movie/>}/>
+            <Route exact path="/movies/:id/booking/:showtimeId" element={<SeatList/>}/>
             {/* <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/editor/:slug" component={Editor} />

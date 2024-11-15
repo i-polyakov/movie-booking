@@ -29,8 +29,19 @@ const requests = {
 
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
+
 const Genres = { all: () => requests.get(`/genres`),}
-const Showtimes = { getByMovieId: id => requests.get(`/showtimes?movieId=${id}`)}
+
+const Showtimes = { 
+  getByMovieId: id => requests.get(`/showtimes?_expand=hall&movieId=${id}`),
+  get: id => requests.get(`/showtimes/${id}?_expand=hall`),
+}
+
+const Seats = { all: () => requests.get(`/seats?_expand=hall`)}
+const Booking = { create: booking =>
+    requests.post('/bookings', { ...booking}),
+  getBookedSeats: showtimeId =>  
+    requests.get(`/bookings?showtimeId=${showtimeId}`)}
 const Movies = {
   all: () =>
     requests.get(`/movies`),
@@ -61,6 +72,8 @@ export default {
   Movies,
   Genres,
   Showtimes,
+  Seats,
+  Booking,
   // Auth,
   // Comments,
   // Profile,

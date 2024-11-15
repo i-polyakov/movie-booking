@@ -13,7 +13,8 @@ import {
   PROFILE_FAVORITES_PAGE_UNLOADED,
   SETTINGS_PAGE_UNLOADED,
   LOGIN_PAGE_UNLOADED,
-  REGISTER_PAGE_UNLOADED
+  REGISTER_PAGE_UNLOADED,
+  ASYNC_END
 } from '../constants/actionTypes';
 
 const defaultState = {
@@ -53,6 +54,8 @@ export default (state = defaultState, action) => {
       };
     case DELETE_ARTICLE:
       return { ...state, redirectTo: '/' };
+    case ASYNC_END:
+      return { ...state, error: action.error, errorMessage: action.payload };
     case ARTICLE_PAGE_UNLOADED:
     case HOME_PAGE_UNLOADED:
     case PROFILE_PAGE_UNLOADED:
