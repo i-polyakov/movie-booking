@@ -37,11 +37,16 @@ const Showtimes = {
   get: id => requests.get(`/showtimes/${id}?_expand=hall`),
 }
 
+const Halls = { all: () => requests.get(`/halls`)}
 const Seats = { all: () => requests.get(`/seats?_expand=hall`)}
-const Booking = { create: booking =>
+const Booking = { 
+   create: booking =>
     requests.post('/bookings', { ...booking}),
   getBookedSeats: showtimeId =>  
-    requests.get(`/bookings?showtimeId=${showtimeId}`)}
+    requests.get(`/bookings?showtimeId=${showtimeId}`),
+    del: id =>
+    requests.del(`/bookings/${id}`)}
+    
 const Movies = {
   all: () =>
     requests.get(`/movies`),
@@ -74,6 +79,7 @@ export default {
   Showtimes,
   Seats,
   Booking,
+  Halls,
   // Auth,
   // Comments,
   // Profile,

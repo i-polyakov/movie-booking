@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "cross-env": "latest",
-    "json-server": "0.17.4"
+    "json-server": "1.0.0-beta.3"
   },
   "dependencies": {
     "@babel/core": "^7.16.0",
@@ -73,7 +73,7 @@
     "start": "cross-env PORT=4100 node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "cross-env PORT=4100 node scripts/test.js --env=jsdom",
-    "server": "json-server --watch db.json --routes routes.json"
+    "server": "json-server --watch db.json "
   },
   "browserslist": {
     "production": [

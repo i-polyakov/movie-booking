@@ -1,5 +1,7 @@
 {
-  "users": [],
+  "users": [
+    {"id": 1, "login": "user1", "role":"admin"}
+  ],
   "movies": [
     {
       "id": 1,
@@ -195,69 +197,9 @@
   "bookings": [
     {
       "userId": 1,
-      "showtimeId": "1",
-      "seatId": 1,
+      "showtimeId": 3,  
+      "seatId": 2,
       "id": 1
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 2,
-      "id": 2
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 3,
-      "id": 3
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 1,
-      "id": 4
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 2,
-      "id": 5
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 3,
-      "id": 6
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 5,
-      "id": 7
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 4,
-      "id": 8
-    },
-    {
-      "userId": 1,
-      "showtimeId": "1",
-      "seatId": 6,
-      "id": 9
-    },
-    {
-      "userId": 1,
-      "showtimeId": "3",
-      "seatId": 2,
-      "id": 10
-    },
-    {
-      "userId": 1,
-      "showtimeId": "3",
-      "seatId": 3,
-      "id": 11
     }
   ]
 }

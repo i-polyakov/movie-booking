@@ -2,21 +2,23 @@ import React, { useEffect, useState } from 'react';
 import styles from './SeatList.module.css'; // Импортируйте стили как модули
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams} from 'react-router-dom';
-import { SELECT_SEAT_PAGE_LOADED, CREATE_BOOKINGS} from '../../constants/actionTypes';
+import { SELECT_SEAT_PAGE_LOADED, CREATE_BOOKINGS, DELETE_BOOKING} from '../../constants/actionTypes';
 import agent from '../../agent';
 
 const SeatList = () => {
     const { id, showtimeId} = useParams(); // Получаем ID фильма из URL
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [bookingCounter, setbookingCounter] = useState(0);
+    const [bookingCounter, setBookingCounter] = useState(0);
     const dispatch = useDispatch();
+    const userId = 1; // ID текущего пользователя
 
     useEffect(() => {
         dispatch({type:SELECT_SEAT_PAGE_LOADED, payload:  Promise.all([
             agent.Movies.get(id), 
             agent.Showtimes.get(showtimeId),
             agent.Seats.all(),
-            agent.Booking.getBookedSeats(showtimeId)
+            agent.Booking.getBookedSeats(showtimeId),
+            agent.Halls.all()
         ])}); // Получаем данные о фильме
     }, [dispatch, id, bookingCounter]);
     const { error, errorMessage } = useSelector(state => ({
@@ -59,15 +61,27 @@ const SeatList = () => {
             
             });
             dispatch({ type: CREATE_BOOKINGS, payload: bookings });
-            // navigate(`/movies/${createdMovie.id}`);
+          
         } catch (error) {
-            console.error('Ошибка при создании фильма:', error);
-            alert('Не удалось создать фильм. Попробуйте снова.');
+            console.error('Ошибка при бронировании:', error);
+            alert('Не удалось забронировать. Попробуйте снова.');
         }
         setSelectedSeats([])
-        setbookingCounter(prev => prev + 1)
+        setBookingCounter(prev => prev + 1)
         alert(`Вы забронировали сеанс на `);
-       
+    };
+
+    const handleCancelBooking = (booking) => {
+        try {
+            console.log("booking", booking.id);
+            dispatch({ type: DELETE_BOOKING, payload: agent.Booking.del(booking.id) });
+            
+            setBookingCounter(prev => prev + 1); // Увеличиваем счетчик для обновления
+            alert('Вы успешно отменили бронь!');
+        } catch (error) {
+            console.error('Ошибка при отмене бронирования:', error);
+            alert('Не удалось отменить бронь. Попробуйте снова.');
+        }
     };
 
     // Группировка мест по рядам
@@ -85,11 +99,14 @@ const SeatList = () => {
                             key={seat.id}
                             className={`
                                 ${styles.seatButton} 
-                                ${selectedSeats.includes(seat.id) ? styles.selected : ''}   
-                                ${bookedSeats.some(b => b.seatId == seat.id) ? styles.booked : ''}`
+                                ${bookedSeats.some(b => b.seatId == seat.id && userId == b.userId) ? styles.userBooked:''}
+                                ${selectedSeats.includes(seat.id) ? styles.selected : ''}`
                             }
-                            disabled={bookedSeats.some(b => b.seatId == seat.id)}
-                            onClick={() => toggleSeatSelection(seat.id)}>
+                            disabled={bookedSeats.some(b => b.seatId == seat.id && userId != b.userId)}
+                            onClick={() => { 
+                                const booking = bookedSeats.find(b => b.seatId == seat.id && userId == b.userId)  
+                                booking ? handleCancelBooking(booking): toggleSeatSelection(seat.id)
+                            }}>
                             {seat.number}
                         </button>
                     ))}

@@ -40,25 +40,29 @@
 
 }
 
-.seatButton:hover:not(.booked) {
-    background-color: #0056b3; /* Цвет при наведении (темнее синий) */
+.seatButton:hover:not(:disabled) {
+    background-color: #0056b3; 
+}
+
+.seatButton:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed; 
 }
 
 .seatButton.selected {
-    background-color: #28a745; /* Цвет для выбранного места (зеленый) */
+    background-color: #28a745; 
 }
 
-.seatButton.booked {
-    background-color: #6c757d; /* Цвет для забронированного места (серый) */
-    cursor: not-allowed; /* Изменение курсора для забронированных мест */
+.seatButton.userBooked{
+    background-color: #ffc107; 
 }
 
 .confirmButton {
-    margin-top: 20px; /* Отступ сверху для кнопки подтверждения */
-    padding: 10px 20px; /* Отступы для кнопки */
+    margin-top: 20px; 
+    padding: 10px 20px; 
     cursor: pointer;
 }
 .confirmButton:disabled{
-    background-color: #6c757d; /* Цвет для забронированного места (серый) */
-    cursor: not-allowed; /* Изменение курсора для забронированных мест */
+    background-color: #6c757d; 
+    cursor: not-allowed; 
 }

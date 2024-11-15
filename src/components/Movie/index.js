@@ -14,8 +14,10 @@ const Movie = () => {
     
     const [selectedShowtime, setSelectedShowtime] = useState(null);
     const movie = useSelector((state) => state.movie.movie);
-    const showtimes = useSelector((state) => state.movie.showtimes);
+    const allHalls = useSelector((state) => state.movie.halls);
+    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
     
+
     const genres = useSelector((state) => {
       const currentMovie = state.movie.movie;
       if (!currentMovie)
@@ -29,7 +31,8 @@ const Movie = () => {
             agent.Movies.get(id), 
             agent.Showtimes.getByMovieId(id),
             agent.Genres.all(), 
-            agent.Seats.all()
+            agent.Seats.all(),
+            agent.Halls.all()
         ])}); // Получаем данные о фильме
     }, [dispatch, id]);
     
@@ -79,7 +82,7 @@ const Movie = () => {
                         <div className={styles.hallList}>
                             {Object.entries(halls).map(([hallId, showtimes]) => (
                                 <div key={hallId} className={styles.hallItem}>
-                                    <div>{showtimes[0].hall.name}</div>
+                                    <div>{allHalls.find(h=> h.id == hallId).name}</div>
                                     <div className={styles.showtimes}>
                                         {showtimes.map((showtime) => (
                                             <div key={showtime.id} onClick={() => handleShowtimeSelect(showtime)}

@@ -1,10 +1,11 @@
-import { CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED } from '../constants/actionTypes';
+import { CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED, DELETE_BOOKING } from '../constants/actionTypes';
 
 const defaultState = {
   genres: [],
   showtimes: [],
   seats:[],
-  bookings: []
+  bookings: [],
+  halls: []
 };
 
 
@@ -20,13 +21,19 @@ export default (state = defaultState, action) => {
         ...state,
         bookings: action.payload
       };
+    // case DELETE_BOOKING:
+    //   return {
+    //     ...state,
+    //     bookings: state.bookings.filter(booking => booking.id !== action.payload.id)
+    //   };
     case MOVIE_PAGE_LOADED:
       return {
         ...state,
         movie: action.payload[0],
         showtimes: action.payload[1],
         genres: action.payload[2],
-        seats: action.payload[3]
+        seats: action.payload[3],
+        halls: action.payload[4]
       };
     case SELECT_SEAT_PAGE_LOADED:
       return {
@@ -34,7 +41,8 @@ export default (state = defaultState, action) => {
         movie: action.payload[0],
         showtime: action.payload[1],
         seats: action.payload[2],
-        bookedSeats: action.payload[3]
+        bookedSeats: action.payload[3],
+        halls: action.payload[4]
       };
     case CREATE_MOVIE_PAGE_UNLOADED:
       return {};
