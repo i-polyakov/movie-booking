@@ -11,20 +11,16 @@ const Movie = () => {
 
     const { id } = useParams(); // Получаем ID фильма из URL
     const dispatch = useDispatch();
-  
-    const [selectedShowtime, setSelectedShowtime] = useState(null);
 
     const user = useSelector(state => state.auth.user);
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
-    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
+    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id === s.hallId)));
     
     const canCreate =  user && user.role === 'admin'
     const genres = useSelector((state) => {
       const currentMovie = state.movie.movie;
-      if (!currentMovie)
-        return []  
-
+      if (!currentMovie) return []  
       return state.movie.genres.filter(g => currentMovie.genresId.includes(g.id))
     });
 
@@ -40,7 +36,6 @@ const Movie = () => {
     
     const handleShowtimeSelect = (showtime) => {
         navigate(`/movies/${id}/booking/${showtime.id}`);
-        // setSelectedShowtime(showtime);
     };
 
     if (!movie) {
@@ -88,7 +83,7 @@ const Movie = () => {
                                     <div className={styles.showtimes}>
                                         {showtimes.map((showtime) => (
                                             <div key={showtime.id} onClick={() => handleShowtimeSelect(showtime)}
-                                                 className={`${styles.showtimeItem} ${selectedShowtime === showtime ? styles.selected : ''}`}>
+                                                 className={`${styles.showtimeItem}`}>
                                                 {showtime.time}
                                             </div>
                                         ))}
@@ -100,7 +95,7 @@ const Movie = () => {
                 ))}
             </div>
             <div>
-                {<Reviews movieId={id}/>}
+                {<Reviews movieId={id} user={user}/>}
             </div>
         </div>
     );

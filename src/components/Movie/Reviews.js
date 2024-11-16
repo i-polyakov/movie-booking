@@ -17,17 +17,19 @@ const formatDateTime = (dateString) => {
     return date.toLocaleString(undefined, options); // Форматируем дату и время
 };
 
-const Reviews = ({ movieId }) => {
+const Reviews = ({ movieId, user}) => {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.movie.reviews);
     const [newReviw, setNewReview] = useState('');
-    const userId = 1
+    const userId = user && user.id
     useEffect(() => {
         dispatch({type:CREATE_REVIEW_PAGE_LOADED, payload: agent.Reviews.getByMovieId(movieId)}); // Загружаем отзывы
     }, [dispatch, movieId]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!user)
+            return alert("Войдите в систему чтобы оставить отзыв.")
         if (newReviw.trim()) {
             const review = {
                 userId,
@@ -47,7 +49,7 @@ const Reviews = ({ movieId }) => {
                 {reviews&&reviews.map((r) => (
                     <li className={styles.review} key={r.id}>
                     <div className={styles.reviewContent}>
-                        <span className={styles.reviewUser}>{r.userId}</span>
+                        <span className={styles.reviewUser}>{userId === r.userId ? user.login : r.userLogin}</span>
                         <span className={styles.reviewDate}>{formatDateTime(r.date)}</span>
                     </div>
                     <p className={styles.reviewText}>{r.text}</p>
