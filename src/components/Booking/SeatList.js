@@ -10,7 +10,7 @@ const SeatList = () => {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [bookingCounter, setBookingCounter] = useState(0);
     const dispatch = useDispatch();
-    const userId = 1; // ID текущего пользователя
+
 
     useEffect(() => {
         dispatch({type:SELECT_SEAT_PAGE_LOADED, payload:  Promise.all([
@@ -28,6 +28,9 @@ const SeatList = () => {
     const showtime = useSelector((state) => !error&&state.movie.showtime);
     const seats = useSelector((state) => !error&&state.movie.seats.filter(s => showtime !== undefined &&s.hallId == showtime.hallId));
     const bookedSeats = useSelector((state) => !error&&state.movie.bookedSeats);
+    const user = useSelector(state => state.auth.user);
+    const userId = user&&user.id; // ID текущего пользователя
+
     if (error) 
         return <div>Произошла ошибка. Попробуйте еще раз</div>;
     
@@ -49,6 +52,9 @@ const SeatList = () => {
 
     const handleBooking = async () => {
         try {
+            if (!user)
+                return alert("Войдите в систему для бронирования.")
+                
             const bookings = selectedSeats.map( async s => {
                 const booking = {
                     userId: 1,
@@ -67,7 +73,7 @@ const SeatList = () => {
         }
         setSelectedSeats([])
         setBookingCounter(prev => prev + 1)
-        alert(`Вы забронировали сеанс на `);
+        alert(`Вы забронировали места.`);
     };
 
     const handleCancelBooking = (booking) => {

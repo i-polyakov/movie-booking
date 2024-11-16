@@ -9,8 +9,8 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const movies = useSelector(state => state.home.movies);
-  const appName = useSelector(state => state.common.appName);
   const token = useSelector(state => state.auth.token);
+  const user = useSelector(state => state.auth.user);
 
   const onLoad = (payload) => {
     dispatch({ type: HOME_PAGE_LOADED, payload });
@@ -24,7 +24,7 @@ export default function Home() {
     <div className="home-page">
       <div className="container page">
 
-        <MovieList movies={movies} />
+        <MovieList movies={movies} user={user} />
       </div>
     </div>
   )

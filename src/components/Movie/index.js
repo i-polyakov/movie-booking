@@ -11,13 +11,15 @@ const Movie = () => {
 
     const { id } = useParams(); // Получаем ID фильма из URL
     const dispatch = useDispatch();
-    const canCreate = true
+  
     const [selectedShowtime, setSelectedShowtime] = useState(null);
+
+    const user = useSelector(state => state.auth.user);
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
     const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
     
-
+    const canCreate =  user && user.role === 'admin'
     const genres = useSelector((state) => {
       const currentMovie = state.movie.movie;
       if (!currentMovie)

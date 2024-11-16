@@ -46,7 +46,7 @@ export default function App() {
       <div>
         <Header appName={appName} user={currentUser} />
         <Routes>
-          <Route exact path="/*" element={<Home />} />
+          <Route exact path="/*" element={<Home/>} />
           <Route exact path="/movies/new" element={<CreateMovie />} />
           <Route exact path="/movies/:id" element={<Movie />} />
           <Route exact path="/movies/:id/new-showtime" element={<CreateShowtime />} />

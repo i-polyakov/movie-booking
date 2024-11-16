@@ -18,7 +18,7 @@
       "id": "1",
       "title": "Очень интересное название фильма 1",
       "released": "01-01-2024",
-      "runtime": "105",
+      "runtime": "1:45",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -30,7 +30,7 @@
       "id": "2",
       "title": "Очень интересное название фильма 2",
       "released": "01-01-2024",
-      "runtime": "105",
+      "runtime": "1:45",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -42,7 +42,7 @@
       "id": "3",
       "title": "Очень интересное название фильма 3",
       "released": "01-01-2024",
-      "runtime": "105",
+      "runtime": "1:45",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -54,7 +54,7 @@
       "id": "4",
       "title": "Очень интересное название фильма 4",
       "released": "01-01-2024",
-      "runtime": "105",
+      "runtime": "1:45",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -66,7 +66,7 @@
       "id": "5",
       "title": "Очень интересное название фильма 5",
       "released": "01-01-2024",
-      "runtime": "105",
+      "runtime": "1:45",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -78,7 +78,7 @@
       "id": "6",
       "title": "Очень интересное название фильма 6",
       "released": "01-01-2024",
-      "runtime": "105",
+      "runtime": "1:45",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -126,7 +126,22 @@
       "name": "Комедия"
     }
   ],
-  "reviews": [],
+  "reviews": [
+    {
+      "id": "63f1",
+      "userId": 1,
+      "movieId": "1",
+      "text": "Классный фильм",
+      "date": "2024-11-16T13:37:21.269Z"
+    },
+    {
+      "id": "a61c",
+      "userId": 1,
+      "movieId": "2",
+      "text": "123",
+      "date": "2024-11-16T13:44:56.686Z"
+    }
+  ],
   "halls": [
     {
       "id": "1",
@@ -175,7 +190,15 @@
       "number": 3
     }
   ],
-  "showtimes": [],
+  "showtimes": [
+    {
+      "id": "6a1f",
+      "hallId": "1",
+      "movieId": "1",
+      "date": "2024-11-16",
+      "time": "14:40"
+    }
+  ],
   "bookings": [
     {
       "id": "b7fb",
@@ -218,6 +241,24 @@
       "userId": 1,
       "showtimeId": "4bcf",
       "seatId": "2"
+    },
+    {
+      "id": "5b19",
+      "userId": 1,
+      "showtimeId": "6a1f",
+      "seatId": "2"
+    },
+    {
+      "id": "9301",
+      "userId": 1,
+      "showtimeId": "6a1f",
+      "seatId": "3"
+    },
+    {
+      "id": "9fa9",
+      "userId": 1,
+      "showtimeId": "6a1f",
+      "seatId": "5"
     }
   ]
 }

@@ -17,11 +17,15 @@ const CreateMovie = () => {
     const [genresId, setGenresID] = useState([]);
 
     const genres = useSelector((state) => state.movie.genres);
+    const user = useSelector(state => state.auth.user);
 
     useEffect(() => {
         dispatch({ type: CREATE_MOVIE_PAGE_LOADED, payload: agent.Genres.all() });
     }, [dispatch]);
 
+    if (!user || user.role !== 'admin')
+        return navigate("/") 
+        
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newMovie = {

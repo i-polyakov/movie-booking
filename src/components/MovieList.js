@@ -16,7 +16,7 @@ const MovieList = props => {
       </div>
     );
   }
-  const canCreate = true
+  const canCreate = props.user && props.user.role === 'admin'
 
   return (
    

@@ -13,7 +13,8 @@ const CreateShowtime = () => {
     const [selectedHallId, setSelectedHallId] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
- 
+    
+    const user = useSelector(state => state.auth.user);
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
     const showtimes = useSelector((state) =>{
@@ -36,6 +37,9 @@ const CreateShowtime = () => {
             agent.Halls.all()
         ])}); // Получаем данные 
     }, [dispatch, id]);
+
+    if (!user || user.role !== 'admin')
+        return navigate("/") 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
