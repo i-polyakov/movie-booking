@@ -16,12 +16,20 @@ const CreateShowtime = () => {
  
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
-    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
-    
+    const showtimes = useSelector((state) =>{
+        console.log('Текущие сеансы:', state.movie.showtimes.filter(s => allHalls.some(h => h.id === s.hallId)));
+        return state.movie.showtimes.filter(s => allHalls.some(h => h.id === s.hallId));
+    });
+
     useEffect(() => {
         if (allHalls && allHalls.length > 0) {
             setSelectedHallId(allHalls[0].id); // Зал по умолчанию
         }
+        
+    }, [allHalls]); 
+
+    useEffect(() => {
+       
         dispatch({type:CREATE_SHOWTIME_PAGE_LOADED, payload:  Promise.all([
             agent.Movies.get(id), 
             agent.Showtimes.getByMovieId(id),
@@ -30,7 +38,7 @@ const CreateShowtime = () => {
     }, [dispatch, id]);
 
     const handleSubmit = async (e) => {
-        //e.preventDefault();
+        e.preventDefault();
         console.log(showtimes,selectedHallId, date, time);
         if (new Date(date).toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10))
             return alert('Не удалось создать сеанс. Неправильная дата.');
@@ -58,7 +66,7 @@ const CreateShowtime = () => {
     return (
         <div className={styles.container}>
             <h3>Фильм </h3>
-            <p>{movie&&movie.title}</p>
+            <p className={styles.movieTitle}>{movie&&movie.title}</p>
             <h2>Cеанс</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.group}>

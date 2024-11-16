@@ -130,3 +130,30 @@ h3 {
     background-color: #28a745; 
 }
 
+.reviewList{
+    padding: 0px;
+    max-height: 500px;
+    overflow-y: auto; /* Включаем вертикальную прокрутку */
+}
+.review {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    list-style-type: none;
+}
+
+.reviewContent {
+    display: flex;
+    justify-content: space-between; /* Чтобы разместить логин и дату по краям */
+    font-weight: bold; /* Можно добавить жирный шрифт для логина */
+}
+
+.reviewDate {
+    color: #888; /* Серый цвет для даты */
+    font-size: 0.70rem; /* Меньший шрифт для даты */
+}
+
+.reviewText {
+    margin-top: 5px; /* Отступ сверху для текста отзыва */
+}

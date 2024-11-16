@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Movie.module.css'; // Импортируем стили
 import agent from '../../agent';
+import Reviews from './Reviews';
 import { MOVIE_PAGE_LOADED } from '../../constants/actionTypes';
 
 const Movie = () => {
@@ -95,6 +96,9 @@ const Movie = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+            <div>
+                {<Reviews movieId={id}/>}
             </div>
         </div>
     );

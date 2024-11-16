@@ -39,6 +39,12 @@ const Showtimes = {
   requests.post('/showtimes', { ...showtime })
 }
 
+const Reviews = { 
+  getByMovieId: id => requests.get(`/reviews?_sort=date&movieId=${id}`),
+  create: review =>
+  requests.post('/reviews', { ...review })
+}
+
 const Halls = { all: () => requests.get(`/halls`)}
 const Seats = { all: () => requests.get(`/seats?`)}
 const Booking = { 
@@ -82,6 +88,7 @@ export default {
   Seats,
   Booking,
   Halls,
+  Reviews,
   // Auth,
   // Comments,
   // Profile,

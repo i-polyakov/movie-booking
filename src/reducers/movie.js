@@ -1,4 +1,4 @@
-import {CREATE_SHOWTIME,CREATE_SHOWTIME_PAGE_LOADED, CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, 
+import {CREATE_REVIEW, CREATE_REVIEW_PAGE_LOADED,CREATE_SHOWTIME,CREATE_SHOWTIME_PAGE_LOADED, CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, 
    MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED, DELETE_BOOKING } from '../constants/actionTypes';
 
 const defaultState = {
@@ -6,7 +6,8 @@ const defaultState = {
   showtimes: [],
   seats:[],
   bookings: [],
-  halls: []
+  halls: [],
+  reviews: []
 };
 
 
@@ -44,10 +45,20 @@ export default (state = defaultState, action) => {
         seats: action.payload[2],
         bookedSeats: action.payload[3]
       };
+      case CREATE_REVIEW_PAGE_LOADED:
+        return {
+          ...state,
+          reviews: action.payload.reverse()
+        };
+      case CREATE_REVIEW:
+        return {
+          ...state,
+          reviews: [action.payload,...state.reviews]
+        };
       case CREATE_SHOWTIME:
         return {
           ...state,
-          showtimes: state.showtimes.concat(action.payload)
+          showtimes: [...state.showtimes, action.payload]
         };
       case CREATE_SHOWTIME_PAGE_LOADED:
         return {
