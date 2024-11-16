@@ -57,7 +57,7 @@ const SeatList = () => {
                 
             const bookings = selectedSeats.map( async s => {
                 const booking = {
-                    userId: 1,
+                    userId,
                     showtimeId,
                     seatId: s
                 } 
