@@ -3,7 +3,14 @@
     {
       "id": "1",
       "login": "user1",
+      "password": "123",
       "role": "admin"
+    },
+    {
+      "id": "c0b2",
+      "login": "2",
+      "password": "2",
+      "role": "user"
     }
   ],
   "movies": [
@@ -11,7 +18,7 @@
       "id": "1",
       "title": "Очень интересное название фильма 1",
       "released": "01-01-2024",
-      "runtime": "1:45",
+      "runtime": "105",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -23,7 +30,7 @@
       "id": "2",
       "title": "Очень интересное название фильма 2",
       "released": "01-01-2024",
-      "runtime": "1:45",
+      "runtime": "105",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -35,7 +42,7 @@
       "id": "3",
       "title": "Очень интересное название фильма 3",
       "released": "01-01-2024",
-      "runtime": "1:45",
+      "runtime": "105",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -47,7 +54,7 @@
       "id": "4",
       "title": "Очень интересное название фильма 4",
       "released": "01-01-2024",
-      "runtime": "1:45",
+      "runtime": "105",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -59,7 +66,7 @@
       "id": "5",
       "title": "Очень интересное название фильма 5",
       "released": "01-01-2024",
-      "runtime": "1:45",
+      "runtime": "105",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [
@@ -71,7 +78,7 @@
       "id": "6",
       "title": "Очень интересное название фильма 6",
       "released": "01-01-2024",
-      "runtime": "1:45",
+      "runtime": "105",
       "image": "https://i.pinimg.com/736x/75/3b/db/753bdb99878721343ca0ece0a1a05cb9.jpg",
       "plot": "Очень интересная завязка фильма",
       "genresId": [

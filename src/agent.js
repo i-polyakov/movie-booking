@@ -28,6 +28,17 @@ const requests = {
 };
 
 
+const Auth = {
+  login: (login, password) =>
+    requests.get(`/users?login=${login}&password=${password}`),
+  register:  (user) => 
+     requests.post('/users', {...user}),
+  check:(login) =>
+  requests.get(`/users?login=${login}`),
+  save: user =>
+    requests.put('/user', { user })
+};
+
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
 
 const Genres = { all: () => requests.get(`/genres`),}
@@ -89,7 +100,7 @@ export default {
   Booking,
   Halls,
   Reviews,
-  // Auth,
+  Auth,
   // Comments,
   // Profile,
   // Tags,
