@@ -13,6 +13,7 @@
     display: flex; /* Используем Flexbox */
     flex-direction: column; /* Вертикальное выравнивание */
     align-items: left; /* Центрирование по горизонтали */
+    overflow-x: auto;
 }
 
 .row {
@@ -22,7 +23,7 @@
 }
 
 .rowLabel {
-    margin-right: 10px; /* Отступ после метки ряда */
+    min-width: 80px;
 }
 
 .seatButton {
@@ -35,8 +36,9 @@
     border-radius: 4px; /* Скругление углов */
     transition: background-color 0.3s; /* Плавный переход цвета фона */
     color: white; /* Цвет текста по умолчанию */
-    width: 35px; 
-    height: 35px; 
+    width: 30px; 
+    min-width: 30px;
+    height: 30px; 
 
 }
 

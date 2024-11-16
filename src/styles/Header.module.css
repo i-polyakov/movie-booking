@@ -24,7 +24,7 @@
   }
   .title:focus {
     color: #61dafb;
-    text-decoration: none; /* Убираем подчеркивание */
+    text-decoration: none; /* подчеркивание */
     
   }
   

@@ -39,7 +39,6 @@ const CreateMovie = () => {
         try {
             const createdMovie = await agent.Movies.create(newMovie)
             dispatch({ type: CREATE_MOVIE, payload: createdMovie });
-            console.log(createdMovie);
             navigate(`/movies/${createdMovie.id}`);
         } catch (error) {
             console.error('Ошибка при создании фильма:', error);

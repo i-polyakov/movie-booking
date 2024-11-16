@@ -15,6 +15,7 @@
     transition: transform 0.2s; /* Плавный эффект при наведении */
     display: flex;
     flex-direction: column; /* Вертикальная компоновка элементов внутри карточки */
+   
 }
 
 .movieCard:hover {

@@ -15,12 +15,15 @@ const Movie = () => {
     const user = useSelector(state => state.auth.user);
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
-    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id === s.hallId)));
+    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
     
     const canCreate =  user && user.role === 'admin'
     const genres = useSelector((state) => {
       const currentMovie = state.movie.movie;
-      if (!currentMovie) return []  
+      console.log("currentMovie", state.movie.genres.filter(g => currentMovie.genresId.includes(g.id)));
+      if (!currentMovie)
+        return []  
+
       return state.movie.genres.filter(g => currentMovie.genresId.includes(g.id))
     });
 
@@ -35,7 +38,8 @@ const Movie = () => {
     }, [dispatch, id]);
     
     const handleShowtimeSelect = (showtime) => {
-        navigate(`/movies/${id}/booking/${showtime.id}`);
+        if(new Date(`${showtime.date}T${showtime.time}:00`) >= new Date())
+            navigate(`/movies/${id}/booking/${showtime.id}`);
     };
 
     if (!movie) {
@@ -83,7 +87,7 @@ const Movie = () => {
                                     <div className={styles.showtimes}>
                                         {showtimes.map((showtime) => (
                                             <div key={showtime.id} onClick={() => handleShowtimeSelect(showtime)}
-                                                 className={`${styles.showtimeItem}`}>
+                                                 className={`${styles.showtimeItem} ${new Date(`${date}T${showtime.time}:00`) < new Date() ? styles.disabled:''}`}>
                                                 {showtime.time}
                                             </div>
                                         ))}

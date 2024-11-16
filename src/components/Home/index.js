@@ -9,17 +9,12 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const movies = useSelector(state => state.home.movies);
-  const token = useSelector(state => state.auth.token);
   const user = useSelector(state => state.auth.user);
 
-  const onLoad = (payload) => {
-    dispatch({ type: HOME_PAGE_LOADED, payload });
-  };
-
   useEffect(() => {
-    dispatch(onLoad(agent.Movies.all()));
+    dispatch({ type: HOME_PAGE_LOADED, payload: agent.Movies.all()});
   }, [dispatch]);
-
+  
   return (
     <div className="home-page">
       <div className="container page">

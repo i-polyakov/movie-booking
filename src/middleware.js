@@ -32,10 +32,12 @@ const promiseMiddleware = store => next => action => {
         }
         console.log('ERROR', error);
         action.error = true;
-        action.payload = error.response?.body || 'Произошла ошибка. Попробуйте еще раз.';
+        action.errorMessage = error.response?.body || 'Произошла ошибка. Попробуйте еще раз.';
+        return
         if (!action.skipTracking) {
           store.dispatch({ type: ASYNC_END, promise: action.payload, payload:action.payload, error:action.error });
         }
+        
         store.dispatch(action);
       }
     );

@@ -1,5 +1,5 @@
-import {CREATE_REVIEW, CREATE_REVIEW_PAGE_LOADED,CREATE_SHOWTIME,CREATE_SHOWTIME_PAGE_LOADED, CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, CREATE_MOVIE_PAGE_UNLOADED, 
-   MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED, DELETE_BOOKING } from '../constants/actionTypes';
+import {CREATE_REVIEW, CREATE_REVIEW_PAGE_LOADED,CREATE_SHOWTIME,CREATE_SHOWTIME_PAGE_LOADED, CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, 
+   MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED } from '../constants/actionTypes';
 
 const defaultState = {
   genres: [],
@@ -23,11 +23,6 @@ export default (state = defaultState, action) => {
         ...state,
         bookings: action.payload
       };
-    // case DELETE_BOOKING:
-    //   return {
-    //     ...state,
-    //     bookings: state.bookings.filter(booking => booking.id !== action.payload.id)
-    //   };
     case MOVIE_PAGE_LOADED:
       return {
         ...state,
@@ -67,8 +62,7 @@ export default (state = defaultState, action) => {
           showtimes: action.payload[1],
           halls: action.payload[2]
         };
-    case CREATE_MOVIE_PAGE_UNLOADED:
-      return {};
+
     default:
       return state;
   }
