@@ -28,9 +28,8 @@ export default (state = defaultState, action) => {
         ...state,
         movie: action.payload[0],
         showtimes: action.payload[1],
-        genres: action.payload[2],
-        seats: action.payload[3],
-        halls: action.payload[4]
+        seats: action.payload[2],
+        halls: action.payload[3]
       };
     case SELECT_SEAT_PAGE_LOADED:
       return {

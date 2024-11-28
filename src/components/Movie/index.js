@@ -18,20 +18,11 @@ const Movie = () => {
     const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
     
     const canCreate =  user && user.role === 'admin'
-    const genres = useSelector((state) => {
-      const currentMovie = state.movie.movie;
-      console.log("currentMovie", state.movie.genres.filter(g => currentMovie.genresId.includes(g.id)));
-      if (!currentMovie)
-        return []  
-
-      return state.movie.genres.filter(g => currentMovie.genresId.includes(g.id))
-    });
 
     useEffect(() => {
         dispatch({type:MOVIE_PAGE_LOADED, payload:  Promise.all([
             agent.Movies.get(id), 
             agent.Showtimes.getByMovieId(id),
-            agent.Genres.all(), 
             agent.Seats.all(),
             agent.Halls.all()
         ])}); // Получаем данные о фильме
@@ -45,6 +36,8 @@ const Movie = () => {
     if (!movie) {
         return <div>Загрузка...</div>;
     }
+    const genreNames = movie.Genres.map(genre => genre.name.toLowerCase()).join(', ')
+
     const groupedShowtimes = showtimes.reduce((acc, showtime) => {
         const date = showtime.date; // Предполагается, что у вас есть поле date в showtime
         const hallId = showtime.hallId;
@@ -59,11 +52,12 @@ const Movie = () => {
         
         return acc;
     }, {});
+   
     return (
         <div className={styles.container}>
-            <img src={movie.image} alt={movie.title} className={styles.movieImage} />
-            <h1>{movie.title}</h1>
-            <p><strong>Жанры: </strong>{genres.map(g => g.name).join(', ')}</p>
+            <img src={movie.image_url} alt={movie.title} className={styles.movieImage} />
+            <h1>{movie.title }</h1>
+            <p><strong>Жанры: </strong>{genreNames}</p>
             <p>
                 <strong>Длительность:</strong> {movie.runtime} мин. 
                 <strong> Дата выхода:</strong> {new Date(movie.released).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })}

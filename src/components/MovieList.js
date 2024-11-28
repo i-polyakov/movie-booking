@@ -30,7 +30,7 @@ const MovieList = props => {
         props.movies.map(movie => {
           return (
             <Link to={`/movies/${movie.id}`} key={movie.id} className={styles.movieCard}>
-            <img src={movie.image} alt={movie.title}className={styles.movieImage}/> 
+            <img src={movie.image_url} alt={movie.title}className={styles.movieImage}/> 
             <div className={styles.movieTitle}>{movie.title}</div>
             
           </Link>
