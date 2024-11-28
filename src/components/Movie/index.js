@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate, Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Movie.module.css'; // Импортируем стили
 import agent from '../../agent';
+import Reviews from './Reviews';
 import { MOVIE_PAGE_LOADED } from '../../constants/actionTypes';
-
 
 const Movie = () => {
     const navigate = useNavigate()
 
     const { id } = useParams(); // Получаем ID фильма из URL
     const dispatch = useDispatch();
-    
-    const [selectedShowtime, setSelectedShowtime] = useState(null);
+
+    const user = useSelector(state => state.auth.user);
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
     const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
     
-
+    const canCreate =  user && user.role === 'admin'
     const genres = useSelector((state) => {
       const currentMovie = state.movie.movie;
+      console.log("currentMovie", state.movie.genres.filter(g => currentMovie.genresId.includes(g.id)));
       if (!currentMovie)
         return []  
 
@@ -37,13 +38,8 @@ const Movie = () => {
     }, [dispatch, id]);
     
     const handleShowtimeSelect = (showtime) => {
-        navigate(`/movies/${id}/booking/${showtime.id}`);
-        // setSelectedShowtime(showtime);
-    };
-
-    const handleBookShowtime = () => {
-        // Логика для бронирования сеанса (например, открыть модальное окно)
-        alert(`Вы забронировали сеанс на ${selectedShowtime.time}`);
+        if(new Date(`${showtime.date}T${showtime.time}:00`) >= new Date())
+            navigate(`/movies/${id}/booking/${showtime.id}`);
     };
 
     if (!movie) {
@@ -76,6 +72,11 @@ const Movie = () => {
             <h2>Доступные сеансы:</h2>
             
             <div className={styles.showtimeList}>
+                {canCreate&&(
+                    <Link to={`/movies/${id}/new-showtime`} >
+                        <button className={styles.button}>Добавить сеанс</button>
+                    </Link>
+                )}
                 {Object.entries(groupedShowtimes).map(([date, halls]) => (
                     <div key={date} className={styles.dateGroup}>
                         <div className={styles.date}>{new Date(date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' })}</div>
@@ -86,7 +87,7 @@ const Movie = () => {
                                     <div className={styles.showtimes}>
                                         {showtimes.map((showtime) => (
                                             <div key={showtime.id} onClick={() => handleShowtimeSelect(showtime)}
-                                                 className={`${styles.showtimeItem} ${selectedShowtime === showtime ? styles.selected : ''}`}>
+                                                 className={`${styles.showtimeItem} ${new Date(`${date}T${showtime.time}:00`) < new Date() ? styles.disabled:''}`}>
                                                 {showtime.time}
                                             </div>
                                         ))}
@@ -97,12 +98,9 @@ const Movie = () => {
                     </div>
                 ))}
             </div>
-    
-            {selectedShowtime && (
-                <button onClick={handleBookShowtime} className={styles.bookButton}>
-                    Забронировать сеанс
-                </button>
-            )}
+            <div>
+                {<Reviews movieId={id} user={user}/>}
+            </div>
         </div>
     );
 };

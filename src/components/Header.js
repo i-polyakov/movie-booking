@@ -1,91 +1,39 @@
+import { Link, useNavigate} from 'react-router-dom';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-const LoggedOutView = props => {
-  if (!props.currentUser) {
-    return (
-      <ul className="nav navbar-nav pull-xs-right">
+import { LOGOUT } from '../constants/actionTypes';
+import styles from '../styles/Header.module.css';
 
-        <li className="nav-item">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-        </li>
+const Header = ({ appName, user }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-        <li className="nav-item">
-          <Link to="/login" className="nav-link">
-            Sign in
-          </Link>
-        </li>
+  const handleLogout = () => {
+    dispatch({ type: LOGOUT });
+    navigate('/');
+  };
 
-        <li className="nav-item">
-          <Link to="/register" className="nav-link">
-            Sign up
-          </Link>
-        </li>
-
-      </ul>
-    );
-  }
-  return null;
-};
-
-const LoggedInView = props => {
-  if (props.currentUser) {
-    return (
-      <ul className="nav navbar-nav pull-xs-right">
-
-        <li className="nav-item">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/editor" className="nav-link">
-            <i className="ion-compose"></i>&nbsp;New Post
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link to="/settings" className="nav-link">
-            <i className="ion-gear-a"></i>&nbsp;Settings
-          </Link>
-        </li>
-
-        <li className="nav-item">
-          <Link
-            to={`/@${props.currentUser.username}`}
-            className="nav-link">
-            <img src={props.currentUser.image} className="user-pic" alt={props.currentUser.username} />
-            {props.currentUser.username}
-          </Link>
-        </li>
-
-      </ul>
-    );
-  }
-
-  return null;
-};
-
-class Header extends React.Component {
-  render() {
-    return (
-      <nav className="navbar navbar-light">
-        <div className="container">
-
-          <Link to="/" className="navbar-brand">
-            {this.props.appName.toLowerCase()}
-          </Link>
-
-          <LoggedOutView currentUser={this.props.currentUser} />
-
-          <LoggedInView currentUser={this.props.currentUser} />
-        </div>
-      </nav>
-    );
-  }
+  return (
+    <header className={styles.header}>
+      <div className={styles.container}>
+        <Link to="/" className={styles.title}>{appName}</Link>
+        <nav className={styles.nav}>
+          {user ? (
+            <>
+              <span className={styles.username}>{user.login}</span>
+              <button className={styles.button} onClick={handleLogout}>Выйти</button>
+            </>
+          ) : (
+            <>
+              <Link to='/login' className={styles.button}>Войти</Link>
+              <Link to='/register' className={styles.button}>Зарегистрироваться</Link>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
+  );
 }
 
 export default Header;

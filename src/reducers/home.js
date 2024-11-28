@@ -1,4 +1,4 @@
-import { HOME_PAGE_LOADED, HOME_PAGE_UNLOADED } from '../constants/actionTypes';
+import { HOME_PAGE_LOADED } from '../constants/actionTypes';
 
 const defaultState = {
   movies: []
@@ -12,8 +12,6 @@ export default (state = defaultState, action) => {
         ...state,
         movies: action.payload
       };
-    case HOME_PAGE_UNLOADED:
-      return {};
     default:
       return state;
   }

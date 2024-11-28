@@ -10,15 +10,14 @@ const SeatList = () => {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [bookingCounter, setBookingCounter] = useState(0);
     const dispatch = useDispatch();
-    const userId = 1; // ID текущего пользователя
+
 
     useEffect(() => {
         dispatch({type:SELECT_SEAT_PAGE_LOADED, payload:  Promise.all([
             agent.Movies.get(id), 
             agent.Showtimes.get(showtimeId),
             agent.Seats.all(),
-            agent.Booking.getBookedSeats(showtimeId),
-            agent.Halls.all()
+            agent.Booking.getBookedSeats(showtimeId)
         ])}); // Получаем данные о фильме
     }, [dispatch, id, bookingCounter]);
     const { error, errorMessage } = useSelector(state => ({
@@ -29,6 +28,9 @@ const SeatList = () => {
     const showtime = useSelector((state) => !error&&state.movie.showtime);
     const seats = useSelector((state) => !error&&state.movie.seats.filter(s => showtime !== undefined &&s.hallId == showtime.hallId));
     const bookedSeats = useSelector((state) => !error&&state.movie.bookedSeats);
+    const user = useSelector(state => state.auth.user);
+    const userId = user&&user.id; // ID текущего пользователя
+
     if (error) 
         return <div>Произошла ошибка. Попробуйте еще раз</div>;
     
@@ -50,9 +52,12 @@ const SeatList = () => {
 
     const handleBooking = async () => {
         try {
+            if (!user)
+                return alert("Войдите в систему для бронирования.")
+                
             const bookings = selectedSeats.map( async s => {
                 const booking = {
-                    userId: 1,
+                    userId,
                     showtimeId,
                     seatId: s
                 } 
@@ -68,16 +73,15 @@ const SeatList = () => {
         }
         setSelectedSeats([])
         setBookingCounter(prev => prev + 1)
-        alert(`Вы забронировали сеанс на `);
+        alert(`Вы забронировали места.`);
     };
 
     const handleCancelBooking = (booking) => {
+        const res = window.confirm("Отменить бронь?")
+        if (res)
         try {
-            console.log("booking", booking.id);
             dispatch({ type: DELETE_BOOKING, payload: agent.Booking.del(booking.id) });
-            
             setBookingCounter(prev => prev + 1); // Увеличиваем счетчик для обновления
-            alert('Вы успешно отменили бронь!');
         } catch (error) {
             console.error('Ошибка при отмене бронирования:', error);
             alert('Не удалось отменить бронь. Попробуйте снова.');

@@ -32,10 +32,12 @@ const promiseMiddleware = store => next => action => {
         }
         console.log('ERROR', error);
         action.error = true;
-        action.payload = error.response?.body || 'Произошла ошибка. Попробуйте еще раз.';
+        action.errorMessage = error.response?.body || 'Произошла ошибка. Попробуйте еще раз.';
+        return
         if (!action.skipTracking) {
           store.dispatch({ type: ASYNC_END, promise: action.payload, payload:action.payload, error:action.error });
         }
+        
         store.dispatch(action);
       }
     );
@@ -47,15 +49,26 @@ const promiseMiddleware = store => next => action => {
 };
 
 const localStorageMiddleware = store => next => action => {
-  if (action){
+  if(action){
   if (action.type === REGISTER || action.type === LOGIN) {
-    if (!action.error) {
-      window.localStorage.setItem('jwt', action.payload.user.token);
-      agent.setToken(action.payload.user.token);
+
+    console.log("mid", action.payload);
+    if (action.payload.length>0) {
+     
+      const mockToken = JSON.stringify({ login: action.payload[0].login, role: action.payload[0].role }); // Пример токена
+      const encodedToken = btoa(mockToken); // Кодирование токена
+      window.localStorage.setItem('jwt', encodedToken);
+      window.localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение информации о пользователе
+      agent.setToken(encodedToken);
+      action.payload[1] = encodedToken  
+    
     }
+    else action.error = "Пользователь не найден." 
   } else if (action.type === LOGOUT) {
-    window.localStorage.setItem('jwt', '');
+    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('user');
     agent.setToken(null);
+    
   }
 
   next(action);
