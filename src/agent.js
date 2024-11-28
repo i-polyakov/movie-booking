@@ -3,35 +3,56 @@ import _superagent from 'superagent';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
-const API_ROOT = 'http://localhost:3000';
+const API_ROOT = 'http://localhost:3000/api';
 
 const responseBody = res => res.body;
 
 let token = null;
 const tokenPlugin = req => {
   if (token) {
-    req.set('authorization', `Token ${token}`);
+    req.set('Authorization', `Bearer ${token}`);
   }
 }
-
 
 const requests = {
   del: url =>
     superagent.del(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
   get: url =>
-    superagent.get(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
+    superagent.get(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody).catch(err => {
+      console.error('Ошибка при получении данных:', err);
+  }),
   put: (url, body) =>
     superagent.put(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
   post: (url, body) =>
-    superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody)
-};
+     superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody)}//.catch(err => {
+//     // Проверяем наличие response и text
+//     console.log(err.response);
+//     let message 
+//     if (err.response && err.response.text) {
+//       try {
+//           const errorResponse = JSON.parse(err.response.text);
+//           message = errorResponse.message
+//           console.error('Ошибка от сервера:', message);
+          
+//           if (errorResponse.errors.length) {
+//               console.error('Дополнительные ошибки:', errorResponse.errors);
+//           }
+//       } catch (parseError) {
+//           console.error('Ошибка при парсинге ответа:', parseError);
+//       }
+//     } else {
+//         console.error('Неизвестная ошибка:', err);
+//     }
+//     throw new Error(message); // Повторно выбрасываем ошибку, если нужно
+//   })
+// };
 
 
 const Auth = {
   login: (login, password) =>
-    requests.get(`/users?login=${login}&password=${password}`),
+    requests.post(`/users/login`, {login, password}),
   register:  (user) => 
-     requests.post('/users', {...user}),
+     requests.post('/users/registration', {...user}),
   check:(login) =>
   requests.get(`/users?login=${login}`),
   save: user =>

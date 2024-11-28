@@ -21,8 +21,8 @@ export default (state = {}, action) => {
         ...state,
         inProgress: false,
         error: action.error ? action.error : null,
-        user: action.payload[0],
-        token: action.payload[1]
+        user: action.payload.user,
+        token: action.payload.token
       };
     default:
       return state;

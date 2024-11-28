@@ -52,18 +52,15 @@ const localStorageMiddleware = store => next => action => {
   if(action){
   if (action.type === REGISTER || action.type === LOGIN) {
 
-    console.log("mid", action.payload);
-    if (action.payload.length>0) {
+    if (action.payload.user) {
      
-      const mockToken = JSON.stringify({ login: action.payload[0].login, role: action.payload[0].role }); // Пример токена
-      const encodedToken = btoa(mockToken); // Кодирование токена
-      window.localStorage.setItem('jwt', encodedToken);
-      window.localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение информации о пользователе
-      agent.setToken(encodedToken);
-      action.payload[1] = encodedToken  
-    
+      // const mockToken = JSON.stringify({ login: action.payload[0].login, role: action.payload[0].role }); // Пример токена
+      const token = action.payload.token
+      window.localStorage.setItem('jwt', token);
+      window.localStorage.setItem('user', JSON.stringify(action.payload.user)); // Сохранение информации о пользователе
+      agent.setToken(token); 
     }
-    else action.error = "Пользователь не найден." 
+
   } else if (action.type === LOGOUT) {
     window.localStorage.removeItem('jwt');
     window.localStorage.removeItem('user');
