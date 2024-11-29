@@ -56,16 +56,13 @@ const localStorageMiddleware = store => next => action => {
      
       // const mockToken = JSON.stringify({ login: action.payload[0].login, role: action.payload[0].role }); // Пример токена
       const token = action.payload.token
-      window.localStorage.setItem('jwt', token);
+      window.localStorage.setItem('jwt-token', token);
       window.localStorage.setItem('user', JSON.stringify(action.payload.user)); // Сохранение информации о пользователе
-      agent.setToken(token); 
     }
 
   } else if (action.type === LOGOUT) {
-    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('jwt-token');
     window.localStorage.removeItem('user');
-    agent.setToken(null);
-    
   }
 
   next(action);

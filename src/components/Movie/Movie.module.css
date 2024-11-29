@@ -77,33 +77,63 @@ h3 {
     flex-direction:  column;
     width: 100%;
     margin-top: 10px;
+
+
 }
 .hallItem{
     display: flex;
     justify-content: space-between;
     align-items: center; /* Это выравнивает элементы списка по центру */
     width: 100%; /* Ширина элемента списка */
-    /* max-width: 400px; Максимальная ширина элемента */
     padding-left: 10px;
+    flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
+}
+
+.scrollable {
+    /* height: auto;
+    overflow-x: auto; Включаем  прокрутку
+    max-width: 500px; */
 }
 .showtimes{
+    width: 550px;
     display: flex;
-    justify-content: right;
+    overflow-x: auto; /* Включаем горизонтальную прокрутку */
+
+}
+.showtimes::before {
+    content: '';
+    flex-grow: 1; /* Заполняет оставшееся пространство */
+}
+
+@media (max-width: 768px) {
+    .showtimes {
+        width: 280px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .showtimes {
+        width: 150px; 
+    }
 }
 .showtimeItem {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin-bottom: 10px;
-    margin-left: 10px;
+    /* margin-bottom: 10px;
+    margin-left: 10px; */
+    margin: 8px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s; 
     text-align: center; /* Центрирование текста */
+    box-sizing: border-box; /* Включает отступы и границы в общую ширину */
 }
+
 
 .showtimeItem:hover:not(.disabled) {
     background-color: #e0e0e0;
-    transform: scale(1.02);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    /* transform: scale(1.02); */
 }
 .disabled{
     background-color: #e0e0e0;

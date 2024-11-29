@@ -6,6 +6,8 @@ import agent from '../../agent';
 import Reviews from './Reviews';
 import { MOVIE_PAGE_LOADED } from '../../constants/actionTypes';
 
+const dateString  = date_str => date_str.slice(0, 19).replace('T', ' ');
+
 const Movie = () => {
     const navigate = useNavigate()
 
@@ -14,8 +16,7 @@ const Movie = () => {
 
     const user = useSelector(state => state.auth.user);
     const movie = useSelector((state) => state.movie.movie);
-    const allHalls = useSelector((state) => state.movie.halls);
-    const showtimes = useSelector((state) => state.movie.showtimes.filter(s => allHalls.some(h => h.id == s.hallId)));
+    const showtimes = useSelector((state) => state.movie.showtimes)
     
     const canCreate =  user && user.role === 'admin'
 
@@ -23,13 +24,12 @@ const Movie = () => {
         dispatch({type:MOVIE_PAGE_LOADED, payload:  Promise.all([
             agent.Movies.get(id), 
             agent.Showtimes.getByMovieId(id),
-            agent.Seats.all(),
-            agent.Halls.all()
+            agent.Seats.all()
         ])}); // Получаем данные о фильме
     }, [dispatch, id]);
     
     const handleShowtimeSelect = (showtime) => {
-        if(new Date(`${showtime.date}T${showtime.time}:00`) >= new Date())
+        if(new Date(dateString(showtime.show_date)) >= new Date())
             navigate(`/movies/${id}/booking/${showtime.id}`);
     };
 
@@ -37,11 +37,9 @@ const Movie = () => {
         return <div>Загрузка...</div>;
     }
     const genreNames = movie.Genres.map(genre => genre.name.toLowerCase()).join(', ')
-
     const groupedShowtimes = showtimes.reduce((acc, showtime) => {
-        const date = showtime.date; // Предполагается, что у вас есть поле date в showtime
-        const hallId = showtime.hallId;
-    
+        const date = showtime.show_date.split('T')[0];
+        const hallId = showtime.hall_id;
         if (!acc[date]) {
             acc[date] = {};
         }
@@ -52,7 +50,7 @@ const Movie = () => {
         
         return acc;
     }, {});
-   
+
     return (
         <div className={styles.container}>
             <img src={movie.image_url} alt={movie.title} className={styles.movieImage} />
@@ -76,15 +74,17 @@ const Movie = () => {
                         <div className={styles.date}>{new Date(date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' })}</div>
                         <div className={styles.hallList}>
                             {Object.entries(halls).map(([hallId, showtimes]) => (
-                                <div key={hallId} className={styles.hallItem}>
-                                    <div>{allHalls.find(h=> h.id == hallId).name}</div>
-                                    <div className={styles.showtimes}>
-                                        {showtimes.map((showtime) => (
-                                            <div key={showtime.id} onClick={() => handleShowtimeSelect(showtime)}
-                                                 className={`${styles.showtimeItem} ${new Date(`${date}T${showtime.time}:00`) < new Date() ? styles.disabled:''}`}>
-                                                {showtime.time}
-                                            </div>
-                                        ))}
+                                <div key={hallId} className={`${styles.hallItem} `}>
+                                    <div>{showtimes[0].Hall&&showtimes[0].Hall.name}</div>
+                                    <div className={styles.scrollable}>
+                                        <div className={`${styles.showtimes}`}>
+                                            {showtimes.map((showtime) => (
+                                                <div key={showtime.id} onClick={() => handleShowtimeSelect(showtime)}
+                                                    className={`${styles.showtimeItem} ${new Date(dateString(showtime.show_date)) < new Date() ? styles.disabled:''}`}>
+                                                    {dateString(showtime.show_date).slice(-8, -3)}
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             ))}

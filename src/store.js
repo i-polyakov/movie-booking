@@ -10,13 +10,13 @@ const getMiddleware = () => {
 };
 
 // Восстановление состояния из localStorage
-const token = localStorage.getItem('jwt');
+const token = localStorage.getItem('jwt-token');
 const user = localStorage.getItem('user');
 const initialState = {
  
   auth: {
     token,
-    user: user ? JSON.parse(user)[0] : null,
+    user: user ? JSON.parse(user) : null,
     isAuthenticated: !!token,
   },
 };
