@@ -55,6 +55,7 @@ const Movie = () => {
         <div className={styles.container}>
             <img src={movie.image_url} alt={movie.title} className={styles.movieImage} />
             <h1>{movie.title }</h1>
+            <p><strong>Оценка: </strong>{movie.reviewCount? `${movie.averageRating} (${movie.reviewCount})`:'нет оценок'}</p>
             <p><strong>Жанры: </strong>{genreNames}</p>
             <p>
                 <strong>Длительность:</strong> {movie.runtime} мин. 

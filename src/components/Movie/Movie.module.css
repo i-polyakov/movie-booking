@@ -185,3 +185,8 @@ h3 {
 .reviewText {
     margin-top: 5px; /* Отступ сверху для текста отзыва */
 }
+
+.ratingSelect{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
