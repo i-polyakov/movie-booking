@@ -13,7 +13,7 @@ const formatDateTime = (dateString) => {
         minute: 'numeric',
         hour12: false,
     };
-    const date = new Date(dateString);
+    const date = new Date(dateString.slice(0, 19).replace('T', ' '));
     return date.toLocaleString(undefined, options); // Форматируем дату и время
 };
 
@@ -26,22 +26,20 @@ const Reviews = ({ movieId, user}) => {
         dispatch({type:CREATE_REVIEW_PAGE_LOADED, payload: agent.Reviews.getByMovieId(movieId)}); // Загружаем отзывы
     }, [dispatch, movieId]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!user)
             return alert("Войдите в систему чтобы оставить отзыв.")
         if (newReviw.trim()) {
             const review = {
-                userId,
                 movieId,
-                text: newReviw.trim(),
-                date: new Date()
+                text: newReviw.trim()
             };
-            dispatch({type:CREATE_REVIEW, payload: agent.Reviews.create(review)});
+            const createdReview = await agent.Reviews.create(review)
+            dispatch({type:CREATE_REVIEW, payload: createdReview});
             setNewReview(''); // Очищаем поле ввода
         }
     };
-
     return (
         <div>
             <h3>Отзывы:</h3>
@@ -49,8 +47,8 @@ const Reviews = ({ movieId, user}) => {
                 {reviews&&reviews.map((r) => (
                     <li className={styles.review} key={r.id}>
                     <div className={styles.reviewContent}>
-                        <span className={styles.reviewUser}>{userId === r.userId ? user.login : r.userLogin}</span>
-                        <span className={styles.reviewDate}>{formatDateTime(r.date)}</span>
+                        <span className={styles.reviewUser}>{userId === r.user_id ? user.login : r.User.login}</span>
+                        <span className={styles.reviewDate}>{formatDateTime(r.create_at)}</span>
                     </div>
                     <p className={styles.reviewText}>{r.text}</p>
                 </li>

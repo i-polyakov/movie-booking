@@ -46,7 +46,7 @@ export default (state = defaultState, action) => {
       case CREATE_REVIEW:
         return {
           ...state,
-          reviews: [action.payload,...state.reviews]
+          reviews: [...state.reviews,action.payload]
         };
       case CREATE_SHOWTIME:
         return {

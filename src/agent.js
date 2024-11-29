@@ -70,12 +70,7 @@ const Showtimes = {
 
 const Reviews = { 
   getByMovieId: async id =>  {
-    const reviews = await requests.get(`/reviews?_sort=date&movieId=${id}`)
-    // Получаем информацию о пользователе для каждого отзыва
-    return Promise.all(reviews.map(async r => {
-      const user = await requests.get(`/users/${r.userId}`);
-      return { ...r, userLogin: user.login }; 
-    }));
+    return  requests.get(`/reviews?movieId=${id}`)
   },
   create: review =>
   requests.post('/reviews', { ...review })
