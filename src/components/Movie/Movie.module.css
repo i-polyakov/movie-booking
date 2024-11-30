@@ -66,7 +66,7 @@ h3 {
     border-top: 1px solid #ccc;
 }
 .date{
-    
+    min-width: 115px;
     margin: 5px;
     color: #555;
     font-size: 1.1em;
@@ -85,10 +85,12 @@ h3 {
     justify-content: space-between;
     align-items: center; /* Это выравнивает элементы списка по центру */
     width: 100%; /* Ширина элемента списка */
-    padding-left: 10px;
+    margin-left: 10px;
     flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
 }
-
+.hallItem > div:first-child {
+    white-space: nowrap
+}
 .showtimes{
     width: 550px;
     display: flex;
