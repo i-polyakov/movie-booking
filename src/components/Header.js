@@ -20,15 +20,15 @@ const Header = ({ appName, user }) => {
         <Link to="/" className={styles.title}>{appName}</Link>
         <nav className={styles.nav}>
           {user ? (
-            <>
+            <div>
               <span className={styles.username}>{user.login}</span>
               <button className={styles.button} onClick={handleLogout}>Выйти</button>
-            </>
+            </div>
           ) : (
-            <>
+            <div>
               <Link to='/login' className={styles.button}>Войти</Link>
               <Link to='/register' className={styles.button}>Зарегистрироваться</Link>
-            </>
+            </div>
           )}
         </nav>
       </div>
