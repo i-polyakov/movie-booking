@@ -1,7 +1,4 @@
-import superagentPromise from 'superagent-promise';
-import _superagent from 'superagent';
-
-const superagent = superagentPromise(_superagent, global.Promise);
+import superagent from 'superagent';
 
 const API_ROOT = 'http://localhost:3000/api';
 
@@ -22,72 +19,50 @@ const requests = {
   put: (url, body) =>
     superagent.put(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
   post: (url, body) =>
-     superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody)}//.catch(err => {
-//     // Проверяем наличие response и text
-//     console.log(err.response);
-//     let message 
-//     if (err.response && err.response.text) {
-//       try {
-//           const errorResponse = JSON.parse(err.response.text);
-//           message = errorResponse.message
-//           console.error('Ошибка от сервера:', message);
-          
-//           if (errorResponse.errors.length) {
-//               console.error('Дополнительные ошибки:', errorResponse.errors);
-//           }
-//       } catch (parseError) {
-//           console.error('Ошибка при парсинге ответа:', parseError);
-//       }
-//     } else {
-//         console.error('Неизвестная ошибка:', err);
-//     }
-//     throw new Error(message); // Повторно выбрасываем ошибку, если нужно
-//   })
-// };
-
+    superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody)
+}
 
 const Auth = {
   login: (login, password) =>
-    requests.post(`/users/login`, {login, password}),
-  register:  (user) => 
-     requests.post('/users/registration', {...user}),
-  check:(login) =>
-  requests.get(`/users?login=${login}`),
+    requests.post(`/users/login`, { login, password }),
+  register: (user) =>
+    requests.post('/users/registration', { ...user }),
+  check: (login) =>
+    requests.get(`/users?login=${login}`),
   save: user =>
     requests.put('/user', { user })
 };
 
-// const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`;
+const Genres = { all: () => requests.get(`/genres`), }
 
-const Genres = { all: () => requests.get(`/genres`),}
-
-const Showtimes = { 
+const Showtimes = {
   getByMovieId: id => requests.get(`/showtimes?_sort=date,time&movieId=${id}`),
   get: id => requests.get(`/showtimes/${id}?_expand=hall`),
   create: showtime =>
-  requests.post('/showtimes', { ...showtime })
+    requests.post('/showtimes', { ...showtime })
 }
 
-const Reviews = { 
-  getByMovieId: async id =>  {
-    return  requests.get(`/reviews?movieId=${id}`)
+const Reviews = {
+  getByMovieId: async id => {
+    return requests.get(`/reviews?movieId=${id}`)
   },
   create: review =>
-  requests.post('/reviews', { ...review })
+    requests.post('/reviews', { ...review })
 }
 
-const Halls = { all: () => requests.get(`/halls`)}
+const Halls = { all: () => requests.get(`/halls`) }
 
-const Seats = { all: () => requests.get(`/seats?_sort=number`)}
+const Seats = { all: () => requests.get(`/seats?_sort=number`) }
 
-const Booking = { 
-   create: booking =>
-    requests.post('/bookings', { ...booking}),
-  getBookedSeats: showtimeId =>  
+const Booking = {
+  create: booking =>
+    requests.post('/bookings', { ...booking }),
+  getBookedSeats: showtimeId =>
     requests.get(`/bookings?showtimeId=${showtimeId}`),
-    del: id =>
-    requests.del(`/bookings/${id}`)}
-    
+  del: id =>
+    requests.del(`/bookings/${id}`)
+}
+
 const Movies = {
   all: () =>
     requests.get(`/movies`),
