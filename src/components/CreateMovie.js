@@ -32,9 +32,9 @@ const CreateMovie = () => {
             title,
             released,
             runtime,
-            image,
+            image_url: image,
             plot,
-            genresId,
+            genreIds: genresId,
         };
         try {
             const createdMovie = await agent.Movies.create(newMovie)

@@ -26,7 +26,7 @@ const SeatList = () => {
     }));
 
     const showtime = useSelector((state) => !error&&state.movie.showtime);
-    const seats = useSelector((state) => !error&&state.movie.seats.filter(s => showtime !== undefined &&s.hallId == showtime.hallId));
+    const seats = useSelector((state) => !error&&state.movie.seats.filter(s => showtime !== undefined &&s.hall_id == showtime.hall_id));
     const bookedSeats = useSelector((state) => !error&&state.movie.bookedSeats);
     const user = useSelector(state => state.auth.user);
     const userId = user&&user.id; // ID текущего пользователя
@@ -34,14 +34,12 @@ const SeatList = () => {
     if (error) 
         return <div>Произошла ошибка. Попробуйте еще раз</div>;
     
-    if (!showtime|| showtime.movieId != id){
+    if (!showtime|| showtime.movie_id != id){
         return (  
             <div> К сожалению, доступных сеансов нет!</div>
             )
         }
         
-    const date = new Date(showtime.date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
-   
     const toggleSeatSelection = (seatId) => {
         setSelectedSeats(prevSelectedSeats =>
             prevSelectedSeats.includes(seatId)
@@ -55,37 +53,35 @@ const SeatList = () => {
             if (!user)
                 return alert("Войдите в систему для бронирования.")
                 
-            const bookings = selectedSeats.map( async s => {
+            const bookings = await Promise.all(selectedSeats.map( async s => {
                 const booking = {
-                    userId,
                     showtimeId,
                     seatId: s
-                } 
-                const createdBooking = await agent.Booking.create(booking)
-                return createdBooking
-            
-            });
+                }
+                return await agent.Booking.create(booking)
+            }));
             dispatch({ type: CREATE_BOOKINGS, payload: bookings });
-          
+            setSelectedSeats([])
+            setBookingCounter(prev => prev + 1)
+            alert(`Вы забронировали места.`);
         } catch (error) {
             console.error('Ошибка при бронировании:', error);
-            alert('Не удалось забронировать. Попробуйте снова.');
+            alert(error.response.body.message);
         }
-        setSelectedSeats([])
-        setBookingCounter(prev => prev + 1)
-        alert(`Вы забронировали места.`);
+       
     };
 
-    const handleCancelBooking = (booking) => {
+    const handleCancelBooking = async (booking) => {
         const res = window.confirm("Отменить бронь?")
         if (res)
-        try {
-            dispatch({ type: DELETE_BOOKING, payload: agent.Booking.del(booking.id) });
-            setBookingCounter(prev => prev + 1); // Увеличиваем счетчик для обновления
-        } catch (error) {
-            console.error('Ошибка при отмене бронирования:', error);
-            alert('Не удалось отменить бронь. Попробуйте снова.');
-        }
+            try {
+                await agent.Booking.del(booking.id)
+                dispatch({ type: DELETE_BOOKING, payload: booking.id});
+                setBookingCounter(prev => prev + 1); // Увеличиваем счетчик для обновления
+            } catch (error) {
+                console.error('Ошибка при отмене бронирования:', error);
+                alert('Не удалось отменить бронь. Попробуйте снова.');
+            }
     };
 
     // Группировка мест по рядам
@@ -94,7 +90,7 @@ const SeatList = () => {
     return (
         <div className={styles.seatSelection}>
             <h2>Выберите места</h2>
-            <p>Сеанс: {date} {showtime.time}</p>
+            <p>Сеанс: {new Date(showtime.show_date).toLocaleString()}</p>
             {Object.entries(groupedSeats).map(([row, seats]) => (
                 <div key={row} className={styles.row}>
                     <span className={styles.rowLabel}>Ряд {row}</span>
@@ -103,12 +99,12 @@ const SeatList = () => {
                             key={seat.id}
                             className={`
                                 ${styles.seatButton} 
-                                ${bookedSeats.some(b => b.seatId == seat.id && userId == b.userId) ? styles.userBooked:''}
+                                ${bookedSeats.some(b => b.seat_id == seat.id && userId == b.user_id) ? styles.userBooked:''}
                                 ${selectedSeats.includes(seat.id) ? styles.selected : ''}`
                             }
-                            disabled={bookedSeats.some(b => b.seatId == seat.id && userId != b.userId)}
+                            disabled={bookedSeats.some(b => b.seat_id == seat.id && userId != b.user_id)}
                             onClick={() => { 
-                                const booking = bookedSeats.find(b => b.seatId == seat.id && userId == b.userId)  
+                                const booking = bookedSeats.find(b => b.seat_id == seat.id && userId == b.user_id)  
                                 booking ? handleCancelBooking(booking): toggleSeatSelection(seat.id)
                             }}>
                             {seat.number}

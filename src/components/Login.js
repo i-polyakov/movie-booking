@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import agent from '../agent';
-import { LOGIN } from '../constants/actionTypes';
+import { LOGIN, LOGIN_FAIL } from '../constants/actionTypes';
 import styles from '../styles/Login.module.css';
 const Login = () => {
   const [login, setLogin] = useState('');
@@ -17,11 +17,11 @@ const Login = () => {
     try {
       e.preventDefault();
       const response = await agent.Auth.login(login, password);
-      console.log('user res', response);
+
       dispatch({ type: LOGIN, payload: response });
-      if (response && response.length > 0)
+      if (response)
         navigate('/');
-    } catch (error) { alert("Ошибка входа.") }
+    } catch (error) {  dispatch({ type: LOGIN_FAIL, payload: error.response.body.message }) }
 
   };
 

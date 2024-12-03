@@ -1,4 +1,3 @@
-import agent from './agent';
 import {
   ASYNC_START,
   ASYNC_END,
@@ -32,7 +31,7 @@ const promiseMiddleware = store => next => action => {
         }
         console.log('ERROR', error);
         action.error = true;
-        action.errorMessage = error.response?.body || 'Произошла ошибка. Попробуйте еще раз.';
+        action.errorMessage = error.response?  error.response.body : 'Произошла ошибка. Попробуйте еще раз.';
         return
         if (!action.skipTracking) {
           store.dispatch({ type: ASYNC_END, promise: action.payload, payload:action.payload, error:action.error });
@@ -52,23 +51,17 @@ const localStorageMiddleware = store => next => action => {
   if(action){
   if (action.type === REGISTER || action.type === LOGIN) {
 
-    console.log("mid", action.payload);
-    if (action.payload.length>0) {
+    if (action.payload.user) {
      
-      const mockToken = JSON.stringify({ login: action.payload[0].login, role: action.payload[0].role }); // Пример токена
-      const encodedToken = btoa(mockToken); // Кодирование токена
-      window.localStorage.setItem('jwt', encodedToken);
-      window.localStorage.setItem('user', JSON.stringify(action.payload)); // Сохранение информации о пользователе
-      agent.setToken(encodedToken);
-      action.payload[1] = encodedToken  
-    
+      // const mockToken = JSON.stringify({ login: action.payload[0].login, role: action.payload[0].role }); // Пример токена
+      const token = action.payload.token
+      window.localStorage.setItem('jwt-token', token);
+      window.localStorage.setItem('user', JSON.stringify(action.payload.user)); // Сохранение информации о пользователе
     }
-    else action.error = "Пользователь не найден." 
+
   } else if (action.type === LOGOUT) {
-    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('jwt-token');
     window.localStorage.removeItem('user');
-    agent.setToken(null);
-    
   }
 
   next(action);

@@ -28,9 +28,7 @@ export default (state = defaultState, action) => {
         ...state,
         movie: action.payload[0],
         showtimes: action.payload[1],
-        genres: action.payload[2],
-        seats: action.payload[3],
-        halls: action.payload[4]
+        seats: action.payload[2]
       };
     case SELECT_SEAT_PAGE_LOADED:
       return {
@@ -48,7 +46,7 @@ export default (state = defaultState, action) => {
       case CREATE_REVIEW:
         return {
           ...state,
-          reviews: [action.payload,...state.reviews]
+          reviews: [...state.reviews,action.payload]
         };
       case CREATE_SHOWTIME:
         return {

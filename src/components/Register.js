@@ -23,19 +23,16 @@ const Register = () => {
         return;
       }
       const newUser = { login, password, role: "user" }
-      const user = await agent.Auth.check(login);
-      if (user && user.length > 0) {
-        dispatch({ type: LOGIN_FAIL, payload: 'Логин занят' });
-        return;
-      }
 
       const res = await agent.Auth.register(newUser);
-      dispatch({ type: REGISTER, payload: [res] });
-      if (res && res.id)
+      dispatch({ type: REGISTER, payload: res });
+      console.log(res);
+      if (res && res.user)
         navigate('/');
     } catch (error) {
-      console.log(error);
-      alert('Ошибка регистрации')
+      
+      dispatch({ type: LOGIN_FAIL, payload: error.response.body.message });
+      console.error(error);
     }
 
   };

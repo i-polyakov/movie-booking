@@ -18,7 +18,6 @@ const CreateShowtime = () => {
     const movie = useSelector((state) => state.movie.movie);
     const allHalls = useSelector((state) => state.movie.halls);
     const showtimes = useSelector((state) =>{
-        console.log('Текущие сеансы:', state.movie.showtimes.filter(s => allHalls.some(h => h.id === s.hallId)));
         return state.movie.showtimes.filter(s => allHalls.some(h => h.id === s.hallId));
     });
 
@@ -43,25 +42,26 @@ const CreateShowtime = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(showtimes,selectedHallId, date, time);
         if (new Date(date).toISOString().slice(0, 10) < new Date().toISOString().slice(0, 10))
             return alert('Не удалось создать сеанс. Неправильная дата.');
         
-        if (showtimes.some(s => s.hallId == selectedHallId && s.date == date && s.time == time))
+        if (showtimes.some(s => s.hall_id == selectedHallId && s.date == date && s.time == time))
             return alert('Это время занято.');
         
         const newShowtime = {
             hallId: selectedHallId,
             movieId: id,
-            date: date,
-            time: time
+            show_date: `${date} ${time}`
         };
         try {
-            await dispatch({ type: CREATE_SHOWTIME, payload: agent.Showtimes.create(newShowtime) });
+            const createdShowtime = await agent.Showtimes.create(newShowtime)
+            dispatch({ type: CREATE_SHOWTIME, payload: createdShowtime});
+            const formatedDate = new Date(date).toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
+            alert(`Вы добавили сеанс на ${formatedDate} ${time}`)
            // navigate(`/movies/${id}`);
         } catch (error) {
             console.error('Ошибка при создании сеанса:', error);
-            alert('Не удалось добавить сеанс. Попробуйте снова.');
+            alert(error.response.body.message);
         }
     
     };
