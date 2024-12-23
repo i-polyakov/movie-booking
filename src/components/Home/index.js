@@ -10,7 +10,11 @@ export default function Home() {
 
   const movies = useSelector(state => state.home.movies);
   const user = useSelector(state => state.auth.user);
-
+ 
+  const isAdmin = user && user.role === 'admin'
+  const relevantMovies = movies.filter(movie => movie.relevant);
+  const irrelevantMovies = movies.filter(movie => !movie.relevant);
+  
   useEffect(() => {
     dispatch({ type: HOME_PAGE_LOADED, payload: agent.Movies.all()});
   }, [dispatch]);
@@ -19,7 +23,13 @@ export default function Home() {
     <div className="home-page">
       <div className="container page">
 
-        <MovieList movies={movies} user={user} />
+        <MovieList movies={relevantMovies} user={user} />
+        {isAdmin&&
+          (<div>
+            <h2>Скрытые фильмы</h2>
+            <MovieList movies={irrelevantMovies} />
+          </div>)
+        }
       </div>
     </div>
   )
