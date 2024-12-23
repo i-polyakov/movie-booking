@@ -1,5 +1,5 @@
 import {CREATE_REVIEW, CREATE_REVIEW_PAGE_LOADED,CREATE_SHOWTIME,CREATE_SHOWTIME_PAGE_LOADED, CREATE_BOOKINGS, CREATE_MOVIE_PAGE_LOADED, 
-   MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED } from '../constants/actionTypes';
+   MOVIE_PAGE_LOADED, SELECT_SEAT_PAGE_LOADED, UPDATE_MOVIE } from '../constants/actionTypes';
 
 const defaultState = {
   genres: [],
@@ -22,6 +22,11 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         bookings: action.payload
+      };
+    case UPDATE_MOVIE:
+      return {
+        ...state,
+        movie: action.payload,
       };
     case MOVIE_PAGE_LOADED:
       return {

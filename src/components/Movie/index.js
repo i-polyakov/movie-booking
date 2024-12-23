@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Movie.module.css'; // Импортируем стили
 import agent from '../../agent';
 import Reviews from './Reviews';
-import { MOVIE_PAGE_LOADED } from '../../constants/actionTypes';
+import { MOVIE_PAGE_LOADED, UPDATE_MOVIE } from '../../constants/actionTypes';
 
 const dateString  = date_str => date_str.slice(0, 19).replace('T', ' ');
 
@@ -18,6 +18,7 @@ const Movie = () => {
     const movie = useSelector((state) => state.movie.movie);
     const showtimes = useSelector((state) => state.movie.showtimes)
     
+    const isRelevant = movie && movie.relevant
     const canCreate =  user && user.role === 'admin'
 
     useEffect(() => {
@@ -51,6 +52,11 @@ const Movie = () => {
         return acc;
     }, {});
 
+    const handleRelevant = async () => {
+        const updatedMovie = await agent.Movies.setRelevant(id, !isRelevant)
+        dispatch({ type: UPDATE_MOVIE, payload: updatedMovie},);
+      };
+
     return (
         <div className={styles.container}>
             <img src={movie.image_url} alt={movie.title} className={styles.movieImage} />
@@ -66,9 +72,12 @@ const Movie = () => {
             
             <div className={styles.showtimeList}>
                 {canCreate&&(
-                    <Link to={`/movies/${id}/new-showtime`} >
-                        <button className={styles.button}>Добавить сеанс</button>
-                    </Link>
+                    <div>
+                        <Link to={`/movies/${id}/new-showtime`} >
+                            <button className={styles.button}>Добавить сеанс</button>
+                        </Link>
+                        <button className={styles.button}  onClick={handleRelevant}>{isRelevant?'Скрыть фильм':'Показать фильм'}</button>
+                    </div>
                 )}
                 {Object.entries(groupedShowtimes).map(([date, halls]) => (
                     <div key={date} className={styles.dateGroup}>

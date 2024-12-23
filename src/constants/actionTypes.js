@@ -14,6 +14,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const ASYNC_START = 'ASYNC_START';
 export const ASYNC_END = 'ASYNC_END';
 
+export const UPDATE_MOVIE = 'UPDATE_MOVIE';
 export const CREATE_MOVIE = 'CREATE_MOVIE';
 export const CREATE_REVIEW = 'CREATE_REVIEW';
 export const CREATE_SHOWTIME = 'CREATE_SHOWTIME'

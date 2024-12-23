@@ -69,7 +69,9 @@ const Movies = {
   get: id =>
     requests.get(`/movies/${id}`),
   create: movie =>
-    requests.post('/movies', { ...movie })
+    requests.post('/movies', { ...movie }),
+  setRelevant: (id, relevant) =>
+    requests.put(`/movies/${id}`, { relevant })
 };
 
 
