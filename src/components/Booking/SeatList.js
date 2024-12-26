@@ -49,26 +49,29 @@ const SeatList = () => {
     };
 
     const handleBooking = async () => {
-        try {
-            if (!user)
-                return alert("Войдите в систему для бронирования.")
-                
-            const bookings = await Promise.all(selectedSeats.map( async s => {
-                const booking = {
-                    showtimeId,
-                    seatId: s
-                }
-                return await agent.Booking.create(booking)
-            }));
-            dispatch({ type: CREATE_BOOKINGS, payload: bookings });
-            setSelectedSeats([])
-            setBookingCounter(prev => prev + 1)
+        if (!user)
+            return alert("Войдите в систему для бронирования.")
+            
+        const bookings = Promise.all(selectedSeats.map( async s => {
+            const booking = {
+                showtimeId,
+                seatId: s
+            }
+            return agent.Booking.create(booking)
+        }))
+        .then(() => {
+            setBookingCounter(prev => prev + 1);
             alert(`Вы забронировали места.`);
-        } catch (error) {
+        })
+        .catch(error => {
             console.error('Ошибка при бронировании:', error);
             alert(error.response.body.message);
-        }
-       
+        })
+        .finally(()=>{
+            setSelectedSeats([]);
+        })
+
+        dispatch({ type: CREATE_BOOKINGS, payload: bookings });
     };
 
     const handleCancelBooking = async (booking) => {

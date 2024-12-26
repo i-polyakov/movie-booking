@@ -25,19 +25,18 @@ const promiseMiddleware = store => next => action => {
         store.dispatch(action);
       },
       error => {
+     
         const currentState = store.getState()
         if (!skipTracking && currentState.viewChangeCounter !== currentView) {
           return
         }
-        console.log('ERROR', error);
         action.error = true;
         action.errorMessage = error.response?  error.response.body : 'Произошла ошибка. Попробуйте еще раз.';
-        return
-        if (!action.skipTracking) {
-          store.dispatch({ type: ASYNC_END, promise: action.payload, payload:action.payload, error:action.error });
+
+        if (error.status === 401) {
+          store.dispatch({ type: LOGOUT});
         }
-        
-        store.dispatch(action);
+        console.log('ERROR', error);
       }
     );
 
